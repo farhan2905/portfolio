@@ -343,9 +343,9 @@ export default function Home() {
               className="mb-6"
             >
               <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-6">
-                <span className="block mb-2">Dr. Faculty</span>
+                <span className="block mb-2">Farhan</span>
                 <span className="relative">
-                  Name
+                  Siddiqui
                   <svg
                     className="absolute -bottom-2 left-0 w-full"
                     viewBox="0 0 300 12"
