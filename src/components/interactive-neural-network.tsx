@@ -325,6 +325,7 @@ export default function InteractiveNeuralNetwork() {
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef<number | null>(null)
+  const uiFrameCounterRef = useRef(0)
   const nodesRef = useRef<AnimatedNode[]>([])
   const hoveredNodeRef = useRef<AnimatedNode | null>(null)
   const selectedNodeRef = useRef<AnimatedNode | null>(null)
@@ -375,6 +376,11 @@ export default function InteractiveNeuralNetwork() {
     const easing = 0.992
 
     const draw = () => {
+      if (document.hidden) {
+        animationRef.current = requestAnimationFrame(draw)
+        return
+      }
+
       context.clearRect(0, 0, canvas.width, canvas.height)
 
       const panelInset = selectedNodeRef.current ? 340 : 0
@@ -447,7 +453,10 @@ export default function InteractiveNeuralNetwork() {
       }
 
       nodesRef.current = updatedNodes
-      setNodes(updatedNodes)
+      uiFrameCounterRef.current += 1
+      if (uiFrameCounterRef.current % 2 === 0) {
+        setNodes(updatedNodes)
+      }
 
       const nodeMap = Object.fromEntries(updatedNodes.map((node) => [node.id, node])) as Record<string, AnimatedNode>
 
@@ -541,7 +550,7 @@ export default function InteractiveNeuralNetwork() {
     if (!point || !canvasRef.current) return
 
     const hovered = findHoveredNode(point.x, point.y)
-    setHoveredNode(hovered ?? null)
+    setHoveredNode((previous) => (previous?.id === hovered?.id ? previous : (hovered ?? null)))
     canvasRef.current.style.cursor = hovered ? 'pointer' : 'default'
   }
 
@@ -550,7 +559,7 @@ export default function InteractiveNeuralNetwork() {
     if (!point) return
 
     const clicked = findHoveredNode(point.x, point.y)
-    setSelectedNode(clicked ?? null)
+    setSelectedNode((previous) => (previous?.id === clicked?.id ? previous : (clicked ?? null)))
   }
 
   return (

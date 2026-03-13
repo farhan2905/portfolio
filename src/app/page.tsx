@@ -1,19 +1,39 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import dynamic from 'next/dynamic'
+import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import InteractiveNeuralNetwork from '@/components/interactive-neural-network'
+import { useIsMobile } from '@/hooks/use-mobile'
 import {
   Menu, X, ArrowRight, Sparkles, Award, Brain, GraduationCap, Rocket,
   Mail, Github, Linkedin, Twitter, MessageSquare, BarChart3, Camera, TrendingUp,
   Users, CheckCircle2, Server, Globe, Smartphone, Star, Layers, Target,
   Code2, Database, Cpu, ExternalLink
 } from 'lucide-react'
+
+const LazyInteractiveNeuralNetwork = dynamic(
+  () => import('@/components/interactive-neural-network'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(79,140,255,0.10),transparent_70%)]" />
+    ),
+  }
+)
+
+const LazyDataFlowParticles = dynamic(
+  { ssr: false }
+)
+
+const LazyFloatingCodeSnippets = dynamic(
+  () => import('@/components/floating-code-snippets'),
+  { ssr: false }
+)
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -165,186 +185,7 @@ const NeuralNetworkBackground = ({ heroRef }: { heroRef: React.RefObject<HTMLDiv
   )
 }
 
-// Data Flow Particle Component - Enhanced with more visibility
-const DataFlowParticles = () => {
-  const [particles, setParticles] = useState<Array<{ id: number; startX: number; startY: number; endX: number; endY: number; color: string; type: string; size: number }>>([])
-  const [bgParticles, setBgParticles] = useState<Array<{ id: number; x: number; y: number; color: string; size: number; duration: number }>>([])
-
-  useEffect(() => {
-    // Main flow particles - increased from 8 to 16
-    const newParticles = Array.from({ length: 16 }, (_, i) => ({
-      id: i,
-      startX: 2 + Math.random() * 15,
-      startY: 10 + Math.random() * 80,
-      endX: 82 + Math.random() * 15,
-      endY: 10 + Math.random() * 80,
-      color: ['#00D9FF', '#B620E0', '#00FF88'][i % 3],
-      type: ['image', 'video', 'text'][i % 3],
-      size: 2.5 + Math.random() * 3,
-    }))
-    setParticles(newParticles)
-
-    // Background chaotic particles for pattern visibility
-    const bgParts = Array.from({ length: 25 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      color: ['#00D9FF', '#B620E0', '#00FF88', '#B620E0'][i % 4],
-      size: 1 + Math.random() * 3,
-      duration: 4 + Math.random() * 6,
-    }))
-    setBgParticles(bgParts)
-  }, [])
-
-  return (
-    <>
-      {/* Background particles - messy pattern layer */}
-      <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
-        <defs>
-          <filter id="bgParticleGlow">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" />
-            <feComponentTransfer>
-              <feFuncA type="linear" slope="0.65" />
-            </feComponentTransfer>
-          </filter>
-        </defs>
-
-        {/* Floating background particles creating chaos patterns */}
-        {bgParticles.map((particle) => (
-          <motion.circle
-            key={`bg-${particle.id}`}
-            cx={`${particle.x}%`}
-            cy={`${particle.y}%`}
-            r={particle.size}
-            fill={particle.color}
-            opacity={0.4}
-            filter="url(#bgParticleGlow)"
-            animate={{
-              x: [0, Math.random() * 20 - 10, 0],
-              y: [0, Math.random() * 20 - 10, 0],
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.6, 0.2],
-            }}
-            transition={{
-              duration: particle.duration,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-              ease: 'easeInOut',
-            }}
-            style={{ filter: `drop-shadow(0 0 ${particle.size * 2}px ${particle.color})` }}
-          />
-        ))}
-      </svg>
-
-      {/* Main data flow particles SVG */}
-      <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
-        <defs>
-          <linearGradient id="particleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00D9FF" />
-            <stop offset="100%" stopColor="#B620E0" />
-          </linearGradient>
-          <filter id="particleShadow">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" />
-            <feComponentTransfer>
-              <feFuncA type="linear" slope="0.75" />
-            </feComponentTransfer>
-          </filter>
-        </defs>
-
-        {particles.map((particle, idx) => (
-          <g key={particle.id}>
-            {/* Particle trail - more visible */}
-            <line x1={`${particle.startX}%`} y1={`${particle.startY}%`} x2={`${particle.endX}%`} y2={`${particle.endY}%`} stroke={particle.color} strokeWidth="1" opacity="0.35" />
-
-            {/* Animated particle - larger and more visible */}
-            <motion.circle
-              cx={`${particle.startX}%`}
-              cy={`${particle.startY}%`}
-              r={particle.size}
-              fill={particle.color}
-              animate={{
-                cx: [`${particle.startX}%`, `${particle.endX}%`, `${particle.startX}%`],
-                cy: [`${particle.startY}%`, `${particle.endY}%`, `${particle.startY}%`],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 2.5 + Math.random() * 2.5,
-                repeat: Infinity,
-                delay: idx * 0.15,
-              }}
-              style={{ filter: 'drop-shadow(0 0 8px currentColor)' }}
-            />
-
-            {/* Glow halo around particle */}
-            <motion.circle
-              cx={`${particle.startX}%`}
-              cy={`${particle.startY}%`}
-              r={particle.size * 1.8}
-              fill="none"
-              stroke={particle.color}
-              strokeWidth="0.5"
-              opacity="0.3"
-              animate={{
-                cx: [`${particle.startX}%`, `${particle.endX}%`, `${particle.startX}%`],
-                cy: [`${particle.startY}%`, `${particle.endY}%`, `${particle.startY}%`],
-                r: [particle.size * 1.8, particle.size * 2.5, particle.size * 1.8],
-              }}
-              transition={{
-                duration: 2.5 + Math.random() * 2.5,
-                repeat: Infinity,
-                delay: idx * 0.15,
-              }}
-            />
-          </g>
-        ))}
-
-        {/* Throughput metrics text */}
-        <text x="50%" y="5%" textAnchor="middle" className="text-xs fill-cyan-400/70" style={{ fontSize: '12px' }}>
-          Data Flow Active: {particles.length} channels
-        </text>
-      </svg>
-    </>
-  )
-}
-
-// Floating Code Snippets Component
-const FloatingCodeSnippets = () => {
-  const codeSnippets = [
-    { code: 'const ai = "powerful"', color: '#00D9FF' },
-    { code: 'function innovate() {}', color: '#B620E0' },
-    { code: 'model.train(data)', color: '#00FF88' },
-    { code: 'await predict(input)', color: '#00D9FF' },
-  ]
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {codeSnippets.map((snippet, idx) => (
-        <motion.div
-          key={idx}
-          className="absolute text-xs font-mono px-3 py-2 bg-slate-900/50 border rounded backdrop-blur"
-          style={{
-            borderColor: snippet.color + '40',
-            color: snippet.color,
-            left: `${15 + idx * 20}%`,
-            top: `${10 + idx * 15}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            x: [-10, 10, -10],
-            opacity: [0.3, 0.7, 0.3],
-          }}
-          transition={{
-            duration: 4 + idx * 0.5,
-            repeat: Infinity,
-            delay: idx * 0.3,
-          }}
-        >
-          {snippet.code}
-        </motion.div>
-      ))}
-    </div>
-  )
-}
+// Heavy background effects are split into lazy-loaded components.
 
 // Spotlight Cursor Effect Component
 const SpotlightCursor = ({ mousePosition }: { mousePosition: { x: number; y: number } }) => {
@@ -813,25 +654,40 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
 }
 
 export default function Home() {
+  const shouldReduceMotion = useReducedMotion()
+  const isMobile = useIsMobile()
+  const enableHeavyEffects = !shouldReduceMotion && !isMobile
   const [activeSection, setActiveSection] = useState('hero')
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [showLanding, setShowLanding] = useState(true)
+  const [showLanding, setShowLanding] = useState(() => enableHeavyEffects)
   const mouseFrameRef = useRef<number | null>(null)
   const pendingMouseRef = useRef({ x: 0, y: 0 })
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollY } = useScroll()
 
+  const landingActive = showLanding && enableHeavyEffects
+  const sectionRevealProps = enableHeavyEffects
+    ? {
+        initial: 'hidden' as const,
+        whileInView: 'visible' as const,
+        viewport: { once: true, margin: '-100px' },
+        variants: staggerContainer,
+      }
+    : {
+        viewport: { once: true, margin: '0px' },
+      }
+
   // Lock scroll during landing animation
   useEffect(() => {
-    if (showLanding) {
+    if (landingActive) {
       document.body.style.overflow = 'hidden'
       return () => {
         document.body.style.overflow = 'unset'
       }
     }
-  }, [showLanding])
+  }, [landingActive])
   
   const backgroundY = useTransform(scrollY, [0, 2000], [0, 300])
   const opacity = useTransform(scrollY, [0, 600], [1, 0])
@@ -843,7 +699,7 @@ export default function Home() {
       const progress = (window.scrollY / scrollHeight) * 100
       setScrollProgress(progress)
 
-      const sections = ['hero', 'about', 'ai-projects', 'products', 'dev-projects', 'skills', 'contact']
+      const sections = ['hero', 'about', 'ai-projects', 'products', 'dev-projects', 'contact']
       for (const section of sections) {
         const element = document.getElementById(section)
         if (element) {
@@ -857,6 +713,7 @@ export default function Home() {
     }
 
     const handleMouseMove = (e: MouseEvent) => {
+
       pendingMouseRef.current = {
         x: e.clientX,
         y: e.clientY,
@@ -871,7 +728,9 @@ export default function Home() {
     }
 
     window.addEventListener('scroll', handleScroll)
-    window.addEventListener('mousemove', handleMouseMove)
+    if (enableHeavyEffects) {
+      window.addEventListener('mousemove', handleMouseMove)
+    }
     return () => {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('mousemove', handleMouseMove)
@@ -879,7 +738,7 @@ export default function Home() {
         cancelAnimationFrame(mouseFrameRef.current)
       }
     }
-  }, [])
+  }, [enableHeavyEffects])
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -893,7 +752,7 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-900 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950 text-foreground overflow-x-hidden relative">
       {/* Epic Neural Network Landing Animation */}
       <AnimatePresence>
-        {showLanding && (
+        {landingActive && (
           <NeuralNetworkLandingAnimation onComplete={() => setShowLanding(false)} />
         )}
       </AnimatePresence>
@@ -901,14 +760,15 @@ export default function Home() {
       {/* Main Content - Fades in after landing animation */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: showLanding ? 0 : 1 }}
-        transition={{ duration: 0.8, delay: showLanding ? 0 : 0.2 }}
+        animate={{ opacity: landingActive ? 0 : 1 }}
+        transition={{ duration: 0.5, delay: landingActive ? 0 : 0.1 }}
         className="w-full"
       >
         {/* Intelligent Spotlight Cursor */}
-        <SpotlightCursor mousePosition={mousePosition} />
+        {enableHeavyEffects && <SpotlightCursor mousePosition={mousePosition} />}
 
         {/* Premium Ambient Background Effects with Neon */}
+      {enableHeavyEffects ? (
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {/* Neon Cyan Orb */}
         <motion.div
@@ -980,6 +840,11 @@ export default function Home() {
           }}
         />
       </div>
+      ) : (
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(79,140,255,0.14),transparent_65%)]" />
+      </div>
+      )}
 
       {/* Premium Neon Progress Bar */}
       <motion.div 
@@ -999,10 +864,9 @@ export default function Home() {
           <div className="hidden md:flex items-center gap-1 relative z-10">
             {[
               { id: 'about', label: 'About' },
-              { id: 'ai-projects', label: 'AI Projects' },
+              { id: 'ai-projects', label: 'Intelligent Solutions' },
               { id: 'products', label: 'Products' },
               { id: 'dev-projects', label: 'Development' },
-              { id: 'skills', label: 'Skills' },
             ].map((item) => (
               <button
                 key={item.id}
@@ -1051,17 +915,22 @@ export default function Home() {
             >
               <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-indigo-500/5" />
               <div className="flex flex-col gap-2 relative z-10">
-                {['about', 'ai-projects', 'products', 'dev-projects', 'skills'].map((item) => (
+                {[
+                  { id: 'about', label: 'About' },
+                  { id: 'ai-projects', label: 'Intelligent Solutions' },
+                  { id: 'products', label: 'Products' },
+                  { id: 'dev-projects', label: 'Development' },
+                ].map((item) => (
                   <button
-                    key={item}
-                    onClick={() => scrollToSection(item)}
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
                     className={`px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all ${
-                      activeSection === item
+                      activeSection === item.id
                         ? 'bg-gradient-to-r from-sky-500/20 to-indigo-500/20 text-sky-300 dark:text-sky-300 border border-sky-500/40'
                         : 'text-slate-400 dark:text-slate-400 hover:bg-slate-800/50 dark:hover:bg-slate-800/50'
                     }`}
                   >
-                    {item.charAt(0).toUpperCase() + item.slice(1).replace('-', ' ')}
+                    {item.label}
                   </button>
                 ))}
                 <Button
@@ -1080,9 +949,11 @@ export default function Home() {
       {/* Hero Section - Premium Enhanced */}
       <section id="hero" className="min-h-screen flex items-center justify-center relative pt-24 pb-16 overflow-hidden" ref={heroRef}>
         {/* Neural Network Background - AI-Inspired Effect */}
-        <div className="absolute inset-0 opacity-28">
-          <NeuralNetworkBackground heroRef={heroRef} />
-        </div>
+        {enableHeavyEffects && (
+          <div className="absolute inset-0 opacity-28">
+            <NeuralNetworkBackground heroRef={heroRef} />
+          </div>
+        )}
 
         <motion.div 
           className="container mx-auto px-4 relative z-10"
@@ -1109,7 +980,7 @@ export default function Home() {
               </div>
 
               <div className="absolute inset-0">
-                <InteractiveNeuralNetwork />
+                <LazyInteractiveNeuralNetwork />
               </div>
             </motion.div>
           </div>
@@ -1139,10 +1010,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-7xl mx-auto"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            {...sectionRevealProps}
           >
             {/* Section Header with Neon Badge */}
             <motion.div variants={fadeInUp} className="text-center mb-20">
@@ -1247,10 +1115,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-7xl mx-auto"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            {...sectionRevealProps}
           >
             <motion.div variants={fadeInUp} className="text-center mb-20">
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-lime-500/15 to-cyan-500/15 border border-lime-500/30 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
@@ -1264,88 +1129,62 @@ export default function Home() {
                 </span>
               </h2>
               <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto">
-                Cutting-edge AI projects demonstrating mastery across multiple domains
+                A unified view of intelligent system capabilities across core AI domains and production technology stacks
               </p>
             </motion.div>
 
-            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
               {[
                 {
-                  icon: MessageSquare,
-                  title: 'Natural Language Processing',
-                  desc: 'Advanced text analysis & understanding',
+                  icon: Brain,
+                  title: 'Machine Learning Systems',
+                  desc: 'Modeling, prediction, and perception across structured and unstructured data',
                   gradient: 'from-cyan-500 to-blue-500',
-                  tags: ['BERT', 'GPT', 'Transformers', 'spaCy'],
+                  tags: ['Deep Learning', 'NLP', 'Computer Vision', 'Time Series'],
                   items: [
-                    'Sentiment Analysis for Product Reviews',
-                    'Text Summarization Engine',
-                    'Multi-language Translation System',
-                    'Chatbot with Context Awareness'
+                    'Built supervised and unsupervised models for forecasting and decision support',
+                    'Delivered NLP pipelines for summarization, classification, and contextual search',
+                    'Developed computer vision systems for detection, tracking, and analytics',
+                    'Applied reinforcement and sequential learning for dynamic optimization tasks'
                   ]
                 },
                 {
-                  icon: BarChart3,
-                  title: 'Classification Systems',
-                  desc: 'Predictive modeling & categorization',
+                  icon: Layers,
+                  title: 'Agentic Systems',
+                  desc: 'Automation-first AI workflows with autonomous reasoning and execution',
                   gradient: 'from-violet-500 to-purple-500',
-                  tags: ['Random Forest', 'XGBoost', 'SVM', 'Neural Networks'],
+                  tags: ['Agentic Design', 'Workflow Automation', 'Multi-Agent', 'Tool Calling'],
                   items: [
-                    'Credit Card Fraud Detection',
-                    'Email Spam Classifier',
-                    'Disease Prediction System',
-                    'Customer Churn Prediction'
+                    'Designed agentic architectures that chain planning, retrieval, and action layers',
+                    'Implemented tool-calling pipelines for business operations and support workflows',
+                    'Built multi-agent orchestration patterns for collaborative task execution',
+                    'Engineered decision-flow control with observability and fallback strategies'
                   ]
                 },
                 {
-                  icon: Camera,
-                  title: 'Computer Vision',
-                  desc: 'Object detection & image analysis',
+                  icon: Server,
+                  title: 'IoT & Smart Systems',
+                  desc: 'Edge-connected intelligence for physical environments and real-time actions',
                   gradient: 'from-lime-500 to-green-500',
-                  tags: ['YOLO', 'Faster R-CNN', 'OpenCV', 'PyTorch'],
+                  tags: ['IoT Integration', 'SLM on Edge', 'Sensor Pipelines', 'Embedded AI'],
                   items: [
-                    'Real-time Object Tracking',
-                    'Face Recognition System',
-                    'Vehicle Counting & Analytics',
-                    'Medical Image Segmentation'
+                    'Integrated sensors and connected devices into unified intelligent platforms',
+                    'Applied lightweight SLM models for low-latency edge inference',
+                    'Built event-driven pipelines for telemetry, alerts, and adaptive controls',
+                    'Designed smart system architectures for reliability and scale'
                   ]
                 },
                 {
-                  icon: TrendingUp,
-                  title: 'Time Series Analysis',
-                  desc: 'Prediction & forecasting models',
+                  icon: Database,
+                  title: 'Data & Cloud Intelligence',
+                  desc: 'Data engineering and cloud-native infrastructure powering intelligent products',
                   gradient: 'from-cyan-500 to-teal-500',
-                  tags: ['LSTM', 'Prophet', 'ARIMA', 'GRU'],
+                  tags: ['PostgreSQL', 'MongoDB', 'AWS/GCP', 'MLOps Pipelines'],
                   items: [
-                    'Stock Price Prediction',
-                    'Sales Demand Forecasting',
-                    'Weather Prediction Model',
-                    'Anomaly Detection System'
-                  ]
-                },
-                {
-                  icon: Users,
-                  title: 'Recommender Systems',
-                  desc: 'Personalized recommendations',
-                  gradient: 'from-violet-500 to-pink-500',
-                  tags: ['Collaborative Filtering', 'Matrix Factorization', 'Deep Learning'],
-                  items: [
-                    'E-commerce Product Recommendations',
-                    'Movie/Content Suggestions',
-                    'Music Playlist Generator',
-                    'Personalized News Feed'
-                  ]
-                },
-                {
-                  icon: Sparkles,
-                  title: 'Generative AI',
-                  desc: 'Content creation & synthesis',
-                  gradient: 'from-lime-500 to-cyan-500',
-                  tags: ['GANs', 'Diffusion Models', 'VAEs', 'LLMs'],
-                  items: [
-                    'Image Generation & Editing',
-                    'Text Generation & Completion',
-                    'Style Transfer Applications',
-                    'Code Generation System'
+                    'Built robust data layers for analytics, model training, and retrieval',
+                    'Deployed cloud-native AI services with scalable APIs and background jobs',
+                    'Implemented MLOps practices for versioning, monitoring, and lifecycle control',
+                    'Enabled secure data flow across product, model, and reporting systems'
                   ]
                 }
               ].map((project, index) => (
@@ -1418,16 +1257,13 @@ export default function Home() {
       <section id="products" className="py-16 md:py-32 relative border-t border-slate-600/25 bg-gradient-to-b from-transparent via-slate-900/30 to-transparent overflow-hidden">
         {/* Data Flow Particle Animation Background */}
         <div className="absolute inset-0 opacity-30">
-          <DataFlowParticles />
+          {enableHeavyEffects && <LazyDataFlowParticles />}
         </div>
 
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-7xl mx-auto relative z-10"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            {...sectionRevealProps}
           >
             <motion.div variants={fadeInUp} className="text-center mb-20">
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-500/15 to-pink-500/15 border border-violet-500/30 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
@@ -1600,15 +1436,12 @@ export default function Home() {
       {/* Development Projects Section */}
       <section id="dev-projects" className="py-16 md:py-32 relative border-t border-slate-600/25 overflow-hidden">
         {/* Floating Code Snippets Background */}
-        <FloatingCodeSnippets />
+        {enableHeavyEffects && <LazyFloatingCodeSnippets />}
 
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-7xl mx-auto relative z-10"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            {...sectionRevealProps}
           >
             <motion.div variants={fadeInUp} className="text-center mb-16 md:mb-20">
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/15 to-teal-500/15 border border-emerald-500/30 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
@@ -1749,121 +1582,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="py-16 md:py-32 relative border-t border-slate-600/25 bg-gradient-to-b from-transparent via-slate-900/20 to-transparent">
-        <div className="container mx-auto px-4">
-          <motion.div 
-            className="max-w-7xl mx-auto"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            <motion.div variants={fadeInUp} className="text-center mb-16 md:mb-20">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-500/15 to-purple-500/15 border border-violet-500/30 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
-                <span className="w-2 h-2 bg-gradient-to-r from-violet-400 to-purple-400 rounded-full animate-pulse" />
-                <span className="text-sm font-bold text-violet-300">Expertise</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-white">
-                Skills &
-                <span className="block bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
-                  Technologies
-                </span>
-              </h2>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto">
-                Proficient across the full spectrum of AI, ML, and modern development
-              </p>
-            </motion.div>
-
-            <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 mb-16">
-              {[
-                {
-                  icon: Brain,
-                  title: 'Machine Learning',
-                  gradient: 'from-violet-500 to-pink-500',
-                  skills: ['Deep Learning', 'Natural Language Processing', 'Computer Vision', 'Reinforcement Learning', 'Time Series Analysis']
-                },
-                {
-                  icon: Code2,
-                  title: 'Programming',
-                  gradient: 'from-cyan-500 to-blue-500',
-                  skills: ['Python', 'JavaScript/TypeScript', 'SQL', 'R', 'Java']
-                },
-                {
-                  icon: Database,
-                  title: 'Data & Cloud',
-                  gradient: 'from-lime-500 to-emerald-500',
-                  skills: ['PostgreSQL', 'MongoDB', 'AWS', 'Google Cloud', 'Big Data Processing']
-                },
-                {
-                  icon: Cpu,
-                  title: 'Frameworks & Tools',
-                  gradient: 'from-orange-500 to-amber-500',
-                  skills: ['TensorFlow / PyTorch', 'React / Next.js', 'Django / FastAPI', 'Docker / Kubernetes', 'Git / CI/CD']
-                },
-                {
-                  icon: Layers,
-                  title: 'Agentic & Automation',
-                  gradient: 'from-indigo-500 to-sky-500',
-                  skills: ['Agentic System Design', 'Workflow Automation', 'Multi-Agent Orchestration', 'Tool Calling Pipelines', 'Decision Flow Engineering']
-                },
-                {
-                  icon: Server,
-                  title: 'IoT & Smart Systems',
-                  gradient: 'from-emerald-500 to-cyan-500',
-                  skills: ['IoT Hardware Integration', 'SLM for Edge Intelligence', 'Smart System Architecture', 'Sensor Data Pipelines', 'Embedded AI Workflows']
-                }
-              ].map((skill, index) => (
-                <motion.div
-                  key={index}
-                  variants={scaleIn}
-                  whileHover={{ y: -8 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  <Card className="group relative h-full overflow-hidden border border-slate-700/50 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-lg hover:shadow-2xl transition-all duration-500">
-                    <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${skill.gradient}/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700`} />
-                    
-                    <CardHeader className="relative">
-                      <motion.div
-                        className={`inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br ${skill.gradient} rounded-2xl shadow-lg`}
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                      >
-                        <skill.icon className="w-7 h-7 text-white" />
-                      </motion.div>
-                      <CardTitle className="text-xl font-bold mt-4 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-violet-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all duration-300">
-                        {skill.title}
-                      </CardTitle>
-                    </CardHeader>
-                    
-                    <CardContent className="relative">
-                      <ul className="space-y-2">
-                        {skill.skills.map((item, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                            <span className="w-1.5 h-1.5 bg-gradient-to-br from-violet-400 to-purple-400 rounded-full mt-2 flex-shrink-0" />
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-
-          </motion.div>
-        </div>
-      </section>
-
       {/* Contact Section */}
       <section id="contact" className="py-16 md:py-32 relative border-t border-slate-600/25">
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-6xl mx-auto"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
+            {...sectionRevealProps}
           >
             <motion.div variants={fadeInUp} className="text-center mb-16 md:mb-20">
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-rose-500/15 to-orange-500/15 border border-rose-500/30 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
