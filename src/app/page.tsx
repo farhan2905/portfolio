@@ -92,7 +92,8 @@ const NeuralNetworkBackground = ({ heroRef }: { heroRef: React.RefObject<HTMLDiv
   const [nodes, setNodes] = useState<Array<{ id: number; x: number; y: number; size: number }>>([])
 
   useEffect(() => {
-    const newNodes = Array.from({ length: 14 }, (_, i) => ({
+    const isMobile = window.innerWidth < 768;
+    const newNodes = Array.from({ length: isMobile ? 6 : 14 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -238,7 +239,7 @@ const DynamicSignalFlow = ({ layers }: { layers: Array<{ id: string; x: number; 
 
         return updated
       })
-    }, 50)
+    }, 150)
 
     return () => clearInterval(interval)
   }, [layers])
@@ -312,6 +313,13 @@ const DynamicSignalFlow = ({ layers }: { layers: Array<{ id: string; x: number; 
 
 // Epic Neural Network Landing Animation with Agentic Flow (11 seconds)
 const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onComplete()
+    }, 5500)
+    return () => clearTimeout(timer)
+  }, [onComplete])
+
   const layers = [
     { id: 'input', x: 12, nodes: 5, label: 'Input Data', sublabel: 'Questions & Context', dataType: 'Questions' },
     { id: 'hidden1', x: 37, nodes: 7, label: 'Processing Layer 1', sublabel: 'Feature Extraction', dataType: 'Patterns' },
@@ -362,11 +370,12 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 1.2 } }}
-      onAnimationComplete={() => {
-        setTimeout(() => onComplete(), 3600)
-      }}
     >
-      <svg className="w-full h-full max-w-4xl" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
+      <svg 
+        className="w-full h-full max-w-4xl" 
+        viewBox="0 0 1000 600" 
+        preserveAspectRatio="xMidYMid meet"
+      >
         <defs>
           <linearGradient id="layerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#00D9FF" stopOpacity="1" />
@@ -548,7 +557,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
                     initial="hidden"
                     animate="visible"
                     transition={{
-                      delay: layerIdx * 0.8 + nodeIdx * 0.12 + 0.4,
+                      delay: layerIdx * 0.4 + nodeIdx * 0.06 + 0.2,
                     }}
                     filter="url(#nodeShadowLanding)"
                     style={{
@@ -585,7 +594,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
         <motion.g
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 9, ease: 'easeOut' }}
+          transition={{ duration: 1.2, delay: 3, ease: 'easeOut' }}
         >
           <text
             x="500"
@@ -645,7 +654,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
           height="4"
           fill="url(#layerGradient)"
           animate={{ width: 600 }}
-          transition={{ duration: 8, ease: 'easeInOut' }}
+          transition={{ duration: 4.8, ease: 'easeInOut' }}
           rx="2"
         />
       </svg>
@@ -656,7 +665,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
 export default function Home() {
   const shouldReduceMotion = useReducedMotion()
   const isMobile = useIsMobile()
-  const enableHeavyEffects = !shouldReduceMotion && !isMobile
+  const enableHeavyEffects = !shouldReduceMotion
   const [activeSection, setActiveSection] = useState('hero')
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -713,6 +722,7 @@ export default function Home() {
     }
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (isMobile) return;
 
       pendingMouseRef.current = {
         x: e.clientX,
@@ -765,7 +775,7 @@ export default function Home() {
         className="w-full"
       >
         {/* Intelligent Spotlight Cursor */}
-        {enableHeavyEffects && <SpotlightCursor mousePosition={mousePosition} />}
+        {enableHeavyEffects && !isMobile && <SpotlightCursor mousePosition={mousePosition} />}
 
         {/* Premium Ambient Background Effects with Neon */}
       {enableHeavyEffects ? (
@@ -964,7 +974,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.22, duration: 0.7 }}
-              className="relative rounded-3xl border border-slate-600/30 bg-slate-900/45 backdrop-blur-xl overflow-hidden h-[72vh] min-h-[560px]"
+              className="relative rounded-3xl border border-slate-600/30 bg-slate-900/45 backdrop-blur-xl overflow-hidden h-[85vh] md:h-[72vh] min-h-[600px] md:min-h-[560px]"
             >
               <div className="absolute left-4 sm:left-6 top-4 sm:top-6 z-20">
                 <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-slate-800/70 px-3 py-1.5 backdrop-blur-md mb-2">

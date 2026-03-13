@@ -284,9 +284,10 @@ const CONNECTIONS: Connection[] = [
 ]
 
 function getNodeLayout(width: number, height: number): AnimatedNode[] {
-  const centerX = width * 0.47
-  const centerY = height * 0.54
-  const orbit = Math.min(width, height) * 0.34
+  const isMobile = width < 768;
+  const centerX = width * (isMobile ? 0.5 : 0.47)
+  const centerY = height * (isMobile ? 0.5 : 0.54)
+  const orbit = Math.min(width, height) * (isMobile ? 0.38 : 0.34)
 
   const categoryAngles: Record<NodeCategory, number> = {
     works: -Math.PI / 4,
@@ -527,15 +528,15 @@ export default function InteractiveNeuralNetwork() {
     }
   }, [dimensions])
 
-  const getPointFromMouseEvent = (event: React.MouseEvent<HTMLCanvasElement>) => {
-    const canvas = canvasRef.current
-    if (!canvas) return null
-    const rect = canvas.getBoundingClientRect()
-    return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
-    }
-  }
+  // const getPointFromMouseEvent = (event: React.MouseEvent<HTMLCanvasElement>) => {
+  //   const canvas = canvasRef.current
+  //   if (!canvas) return null
+  //   const rect = canvas.getBoundingClientRect()
+  //   return {
+  //     x: event.clientX - rect.left,
+  //     y: event.clientY - rect.top,
+  //   }
+  // }
 
   const findHoveredNode = (x: number, y: number) => {
     return nodesRef.current.find((node) => {
@@ -545,18 +546,49 @@ export default function InteractiveNeuralNetwork() {
     })
   }
 
-  const handleCanvasMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
-    const point = getPointFromMouseEvent(event)
-    if (!point || !canvasRef.current) return
+  const handleCanvasMove = (event: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    // Determine coordinates based on event type
+    let clientX, clientY;
+    if ('touches' in event) {
+      clientX = event.touches[0].clientX;
+      clientY = event.touches[0].clientY;
+    } else {
+      clientX = event.clientX;
+      clientY = event.clientY;
+    }
+
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const rect = canvas.getBoundingClientRect()
+    const point = {
+      x: clientX - rect.left,
+      y: clientY - rect.top,
+    }
 
     const hovered = findHoveredNode(point.x, point.y)
     setHoveredNode((previous) => (previous?.id === hovered?.id ? previous : (hovered ?? null)))
-    canvasRef.current.style.cursor = hovered ? 'pointer' : 'default'
+    if (!('touches' in event)) {
+      canvas.style.cursor = hovered ? 'pointer' : 'default'
+    }
   }
 
-  const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
-    const point = getPointFromMouseEvent(event)
-    if (!point) return
+  const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    let clientX, clientY;
+    if ('changedTouches' in event) {
+      clientX = event.changedTouches[0].clientX;
+      clientY = event.changedTouches[0].clientY;
+    } else {
+      clientX = (event as React.MouseEvent).clientX;
+      clientY = (event as React.MouseEvent).clientY;
+    }
+
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const rect = canvas.getBoundingClientRect()
+    const point = {
+      x: clientX - rect.left,
+      y: clientY - rect.top,
+    }
 
     const clicked = findHoveredNode(point.x, point.y)
     setSelectedNode((previous) => (previous?.id === clicked?.id ? previous : (clicked ?? null)))
@@ -569,6 +601,9 @@ export default function InteractiveNeuralNetwork() {
         className="absolute inset-0"
         onMouseMove={handleCanvasMove}
         onClick={handleCanvasClick}
+        onTouchStart={handleCanvasMove}
+        onTouchMove={handleCanvasMove}
+        onTouchEnd={handleCanvasClick}
       />
 
       {nodes.map((node) => {

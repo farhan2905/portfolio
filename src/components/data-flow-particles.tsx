@@ -8,7 +8,8 @@ export default function DataFlowParticles() {
   const [bgParticles, setBgParticles] = useState<Array<{ id: number; x: number; y: number; color: string; size: number; duration: number }>>([])
 
   useEffect(() => {
-    const newParticles = Array.from({ length: 16 }, (_, index) => ({
+    const isMobile = window.innerWidth < 768;
+    const newParticles = Array.from({ length: isMobile ? 8 : 16 }, (_, index) => ({
       id: index,
       startX: 2 + Math.random() * 15,
       startY: 10 + Math.random() * 80,
@@ -19,7 +20,7 @@ export default function DataFlowParticles() {
     }))
     setParticles(newParticles)
 
-    const backgroundParticles = Array.from({ length: 25 }, (_, index) => ({
+    const backgroundParticles = Array.from({ length: isMobile ? 10 : 25 }, (_, index) => ({
       id: index,
       x: Math.random() * 100,
       y: Math.random() * 100,
