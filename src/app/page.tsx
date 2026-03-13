@@ -165,50 +165,6 @@ const NeuralNetworkBackground = ({ heroRef }: { heroRef: React.RefObject<HTMLDiv
   )
 }
 
-// Animated Skill Progress Bar Component
-const SkillBar = ({ skill, percentage, delay = 0 }: { skill: string; percentage: number; delay?: number }) => {
-  const [isVisible, setIsVisible] = useState(false)
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <motion.div
-      ref={ref}
-      variants={fadeInUp}
-      className="space-y-2"
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-semibold text-slate-200">{skill}</span>
-        <motion.span className="text-xs font-bold bg-gradient-to-r from-cyan-400 to-lime-400 bg-clip-text text-transparent">
-          {isVisible && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay }}>{Math.round(percentage * 1.2)}</motion.span>}%
-        </motion.span>
-      </div>
-      <div className="h-2 bg-slate-800/60 rounded-full overflow-hidden border border-slate-700/50">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={isVisible ? { width: `${percentage}%` } : { width: 0 }}
-          transition={{ delay: delay / 1000, duration: 2.2, ease: 'easeOut' }}
-          className="h-full bg-gradient-to-r from-cyan-500 via-violet-500 to-lime-500 rounded-full shadow-lg shadow-cyan-500/50"
-          style={{ boxShadow: '0 0 20px rgba(0, 217, 255, 0.6)' }}
-        />
-      </div>
-    </motion.div>
-  )
-}
-
 // Data Flow Particle Component - Enhanced with more visibility
 const DataFlowParticles = () => {
   const [particles, setParticles] = useState<Array<{ id: number; startX: number; startY: number; endX: number; endY: number; color: string; type: string; size: number }>>([])
@@ -1079,7 +1035,7 @@ export default function Home() {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="md:hidden p-2 rounded-lg hover:bg-slate-700/50 dark:hover:bg-slate-800/50 transition-colors relative z-10"
           >
-            {isMenuOpen ? <X className="w-5 h-5 text-cyan-400" /> : <Menu className="w-5 h-5 text-cyan-400" />}
+            {isMenuOpen ? <X className="w-5 h-5 text-sky-400" /> : <Menu className="w-5 h-5 text-sky-400" />}
           </button>
         </div>
 
@@ -1091,9 +1047,9 @@ export default function Home() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden absolute top-full left-0 right-0 mt-2 bg-slate-900/60 dark:bg-slate-950/70 backdrop-blur-2xl border border-cyan-500/20 rounded-2xl p-4 shadow-2xl shadow-cyan-500/10 relative overflow-hidden"
+              className="md:hidden absolute top-full left-0 right-0 mt-2 bg-slate-900/60 dark:bg-slate-950/70 backdrop-blur-2xl border border-sky-500/20 rounded-2xl p-4 shadow-2xl shadow-sky-500/10 relative overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-violet-500/5" />
+              <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-indigo-500/5" />
               <div className="flex flex-col gap-2 relative z-10">
                 {['about', 'ai-projects', 'products', 'dev-projects', 'skills'].map((item) => (
                   <button
@@ -1101,7 +1057,7 @@ export default function Home() {
                     onClick={() => scrollToSection(item)}
                     className={`px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all ${
                       activeSection === item
-                        ? 'bg-gradient-to-r from-cyan-500/20 to-violet-500/20 text-cyan-300 dark:text-cyan-300 border border-cyan-500/40'
+                        ? 'bg-gradient-to-r from-sky-500/20 to-indigo-500/20 text-sky-300 dark:text-sky-300 border border-sky-500/40'
                         : 'text-slate-400 dark:text-slate-400 hover:bg-slate-800/50 dark:hover:bg-slate-800/50'
                     }`}
                   >
@@ -1111,7 +1067,7 @@ export default function Home() {
                 <Button
                   size="sm"
                   onClick={() => scrollToSection('contact')}
-                  className="w-full mt-2 bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-white font-semibold"
+                  className="w-full mt-2 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white font-semibold"
                 >
                   Contact
                 </Button>
@@ -1179,7 +1135,7 @@ export default function Home() {
       </section>
 
       {/* About Section - Coming Next */}
-      <section id="about" className="py-16 md:py-32 relative border-t border-cyan-500/10">
+      <section id="about" className="py-16 md:py-32 relative border-t border-slate-600/25">
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-7xl mx-auto"
@@ -1201,145 +1157,83 @@ export default function Home() {
                 </span>
               </h2>
               <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto">
-                Transforming cutting-edge research into real-world AI solutions with industry impact
+                If you are asking “tell me about yourself” — I am an AI/ML faculty and full-stack builder who turns research ideas into practical products.
+                I have mentored 1000+ students and built production-ready systems across education and industry.
+                My focus is simple: clear thinking, useful automation, and real-world impact.
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8">
-              {/* Left Column */}
-              <motion.div variants={fadeInUp} className="space-y-4 md:space-y-6">
-                {/* Academic Excellence - Glassmorphism */}
-                <Card className="group relative overflow-hidden border border-cyan-500/20 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-xl transition-all duration-500">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6">
+              <motion.div variants={fadeInUp}>
+                <Card className="group relative h-full overflow-hidden border border-cyan-500/20 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-xl transition-all duration-500">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-cyan-500/15 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
                   <CardHeader className="relative">
                     <motion.div
-                      className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl mb-4 shadow-lg shadow-cyan-500/30"
+                      className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl mb-3 shadow-lg shadow-cyan-500/30"
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <GraduationCap className="w-8 h-8 text-white" />
+                      <GraduationCap className="w-6 h-6 text-white" />
                     </motion.div>
-                    <CardTitle className="text-2xl font-bold text-white mb-2">Academic Excellence</CardTitle>
-                    <CardDescription className="text-base text-slate-300">
-                      Years of transformative teaching experience
+                    <CardTitle className="text-xl font-bold text-white mb-1">Academic Excellence</CardTitle>
+                    <CardDescription className="text-sm text-slate-300">
+                      AI/ML faculty with practical, project-first teaching
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="relative space-y-6">
-                    <p className="text-slate-300 leading-relaxed">
-                      With several years of experience in academic teaching, I have mentored over 1000 students in data science, machine learning, and AI. My teaching philosophy combines theoretical foundations with hands-on practical applications.
+                  <CardContent className="relative space-y-4">
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      I have mentored 1000+ learners across Data Science, Machine Learning, and AI by combining fundamentals with real project delivery. My approach focuses on clear concepts, production-ready execution, and strong problem-solving habits.
                     </p>
-                    <ul className="space-y-3">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {[
-                        'Designed and taught comprehensive AI/ML curriculum',
-                        'Mentored students for research publications and industry placements',
-                        'Conducted workshops and training sessions for industry professionals',
+                        'Designed end-to-end AI/ML curriculum with capstone outcomes',
+                        'Guided students for internships, placements, and research tracks',
+                        'Conducted hands-on workshops on NLP, CV, and model deployment',
+                        'Mentored project teams on architecture, code quality, and delivery',
                       ].map((item, i) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            whileInView={{ scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className="flex-shrink-0 w-6 h-6 bg-gradient-to-br from-lime-400 to-emerald-500 rounded-full flex items-center justify-center mt-0.5 shadow-lg shadow-lime-500/30"
-                          >
-                            <CheckCircle2 className="w-4 h-4 text-white" />
-                          </motion.div>
-                          <span className="text-slate-200">{item}</span>
+                        <li key={i} className="flex items-start gap-2 text-xs text-slate-200">
+                          <span className="w-1.5 h-1.5 bg-gradient-to-br from-lime-400 to-emerald-500 rounded-full mt-1.5 flex-shrink-0" />
+                          <span>{item}</span>
                         </li>
                       ))}
                     </ul>
-                  </CardContent>
-                </Card>
-
-                {/* Research & Innovation */}
-                <Card className="group relative overflow-hidden border border-violet-500/20 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-xl transition-all duration-500">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-violet-500/15 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
-                  <CardHeader className="relative">
-                    <motion.div
-                      className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl mb-4 shadow-lg shadow-violet-500/30"
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <Brain className="w-8 h-8 text-white" />
-                    </motion.div>
-                    <CardTitle className="text-2xl font-bold text-white mb-2">Research & Innovation</CardTitle>
-                    <CardDescription className="text-base text-slate-300">
-                      Pushing boundaries of AI technology
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="relative">
-                    <p className="text-slate-300 leading-relaxed">
-                      My research interests span across Natural Language Processing, Computer Vision, and Deep Learning architectures. I actively contribute to open-source projects and stay updated with the latest advancements in AI technology.
-                    </p>
                   </CardContent>
                 </Card>
               </motion.div>
 
-              {/* Right Column */}
-              <motion.div variants={fadeInUp} className="space-y-6">
-                {/* Industry Experience */}
-                <Card className="group relative overflow-hidden border border-lime-500/20 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-xl transition-all duration-500">
+              <motion.div variants={fadeInUp}>
+                <Card className="group relative h-full overflow-hidden border border-lime-500/20 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-xl transition-all duration-500">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-lime-500/15 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
                   <CardHeader className="relative">
                     <motion.div
-                      className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-lime-500 to-green-600 rounded-2xl mb-4 shadow-lg shadow-lime-500/30"
+                      className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-lime-500 to-green-600 rounded-xl mb-3 shadow-lg shadow-lime-500/30"
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <Zap className="w-8 h-8 text-white" />
+                      <Zap className="w-6 h-6 text-white" />
                     </motion.div>
-                    <CardTitle className="text-2xl font-bold text-white mb-2">Industry Experience</CardTitle>
-                    <CardDescription className="text-base text-slate-300">
-                      Building production-ready AI solutions
+                    <CardTitle className="text-xl font-bold text-white mb-1">Industry Experience</CardTitle>
+                    <CardDescription className="text-sm text-slate-300">
+                      Shipping AI products for real business workflows
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="relative space-y-6">
-                    <p className="text-slate-300 leading-relaxed">
-                      Beyond academia, I have extensive experience building production-ready AI solutions for real-world problems. From startups to enterprise applications, I bring practical expertise to every project.
+                  <CardContent className="relative space-y-4">
+                    <p className="text-slate-300 text-sm leading-relaxed">
+                      I build and deploy practical AI systems across analytics, transcription, computer vision, and decision support. From idea to production, I focus on reliable pipelines, measurable outcomes, and maintainable full-stack delivery.
                     </p>
-                    <ul className="space-y-3">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {[
-                        'Built scalable AI products serving thousands of users',
-                        'Developed custom ML models for diverse industry use cases',
-                        'Led cross-functional teams in product development',
+                        'Built products like Monetrix, FlowMind, and SuperTrading View',
+                        'Designed agentic workflows and automation-first system pipelines',
+                        'Delivered custom ML solutions for domain-specific use cases',
+                        'Collaborated with cross-functional teams from prototype to launch',
                       ].map((item, i) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            whileInView={{ scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                            className="flex-shrink-0 w-6 h-6 bg-gradient-to-br from-lime-400 to-emerald-500 rounded-full flex items-center justify-center mt-0.5 shadow-lg shadow-lime-500/30"
-                          >
-                            <CheckCircle2 className="w-4 h-4 text-white" />
-                          </motion.div>
-                          <span className="text-slate-200">{item}</span>
+                        <li key={i} className="flex items-start gap-2 text-xs text-slate-200">
+                          <span className="w-1.5 h-1.5 bg-gradient-to-br from-lime-400 to-emerald-500 rounded-full mt-1.5 flex-shrink-0" />
+                          <span>{item}</span>
                         </li>
                       ))}
                     </ul>
-                  </CardContent>
-                </Card>
-
-                {/* Mission */}
-                <Card className="group relative overflow-hidden border border-cyan-500/20 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-xl transition-all duration-500">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-cyan-500/15 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
-                  <CardHeader className="relative">
-                    <motion.div
-                      className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-2xl mb-4 shadow-lg shadow-cyan-500/30"
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <Target className="w-8 h-8 text-white" />
-                    </motion.div>
-                    <CardTitle className="text-2xl font-bold text-white mb-2">My Mission</CardTitle>
-                    <CardDescription className="text-base text-slate-300">
-                      Empowering the next generation
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="relative">
-                    <p className="text-slate-300 leading-relaxed">
-                      To empower the next generation of AI practitioners by sharing knowledge, building innovative solutions, and pushing the boundaries of what's possible with artificial intelligence.
-                    </p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -1349,7 +1243,7 @@ export default function Home() {
       </section>
 
       {/* AI/ML Projects Section */}
-      <section id="ai-projects" className="py-16 md:py-32 relative border-t border-cyan-500/10">
+      <section id="ai-projects" className="py-16 md:py-32 relative border-t border-slate-600/25">
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-7xl mx-auto"
@@ -1521,7 +1415,7 @@ export default function Home() {
       </section>
 
       {/* Products Section */}
-      <section id="products" className="py-16 md:py-32 relative border-t border-cyan-500/10 bg-gradient-to-b from-transparent via-slate-900/30 to-transparent overflow-hidden">
+      <section id="products" className="py-16 md:py-32 relative border-t border-slate-600/25 bg-gradient-to-b from-transparent via-slate-900/30 to-transparent overflow-hidden">
         {/* Data Flow Particle Animation Background */}
         <div className="absolute inset-0 opacity-30">
           <DataFlowParticles />
@@ -1627,21 +1521,21 @@ export default function Home() {
                     <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br ${product.gradient}/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700`} />
                     
                     <div className="md:flex relative">
-                      <div className={`md:w-1/3 bg-gradient-to-br ${product.gradient} p-10 flex flex-col justify-center relative overflow-hidden`}>
+                      <div className={`md:w-1/3 bg-gradient-to-br ${product.gradient} p-7 flex flex-col justify-center relative overflow-hidden`}>
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
                         <motion.div
-                          className="relative w-20 h-20 bg-white/20 backdrop-blur rounded-3xl flex items-center justify-center mb-6"
+                          className="relative w-16 h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center mb-4"
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
-                          <product.icon className="w-10 h-10 text-white" />
+                          <product.icon className="w-8 h-8 text-white" />
                         </motion.div>
-                        <h3 className="relative text-4xl font-black text-white mb-2">{product.name}</h3>
-                        <p className="relative text-white/80 text-lg">{product.desc}</p>
+                        <h3 className="relative text-3xl font-black text-white mb-1.5">{product.name}</h3>
+                        <p className="relative text-white/80 text-base">{product.desc}</p>
                       </div>
                       
-                      <div className="md:w-2/3 p-10">
-                        <div className="flex items-start justify-between mb-6">
+                      <div className="md:w-2/3 p-7">
+                        <div className="flex items-start justify-between mb-4">
                           <Badge className="bg-gradient-to-r from-lime-500 to-cyan-500 text-white border-0 shadow-lg shadow-lime-500/30">
                             {product.status}
                           </Badge>
@@ -1651,14 +1545,14 @@ export default function Home() {
                           </Badge>
                         </div>
                         
-                        <p className="text-slate-300 mb-8 leading-relaxed text-lg">
+                        <p className="text-slate-300 mb-6 leading-relaxed text-base">
                           {product.description}
                         </p>
                         
-                        <div className="grid sm:grid-cols-2 gap-8 mb-8">
+                        <div className="grid sm:grid-cols-2 gap-6 mb-6">
                           <div>
-                            <h4 className="font-bold text-lg mb-4 flex items-center gap-2 text-white">
-                              <Layers className="w-5 h-5 text-cyan-400" />
+                            <h4 className="font-bold text-base mb-3 flex items-center gap-2 text-white">
+                              <Layers className="w-4 h-4 text-cyan-400" />
                               Key Features
                             </h4>
                             <ul className="space-y-2">
@@ -1671,8 +1565,8 @@ export default function Home() {
                             </ul>
                           </div>
                           <div>
-                            <h4 className="font-bold text-lg mb-4 flex items-center gap-2 text-white">
-                              <Target className="w-5 h-5 text-violet-400" />
+                            <h4 className="font-bold text-base mb-3 flex items-center gap-2 text-white">
+                              <Target className="w-4 h-4 text-violet-400" />
                               Use Cases
                             </h4>
                             <ul className="space-y-2">
@@ -1704,7 +1598,7 @@ export default function Home() {
       </section>
 
       {/* Development Projects Section */}
-      <section id="dev-projects" className="py-16 md:py-32 relative border-t border-cyan-500/10 overflow-hidden">
+      <section id="dev-projects" className="py-16 md:py-32 relative border-t border-slate-600/25 overflow-hidden">
         {/* Floating Code Snippets Background */}
         <FloatingCodeSnippets />
 
@@ -1732,7 +1626,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {[
                 {
                   icon: MessageSquare,
@@ -1795,20 +1689,20 @@ export default function Home() {
                 <motion.div
                   key={index}
                   variants={scaleIn}
-                  whileHover={{ y: -8 }}
+                  whileHover={{ y: -6 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <Card className="group relative h-full overflow-hidden border border-slate-700/50 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-lg hover:shadow-2xl transition-all duration-500">
                     <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${project.gradient}/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700`} />
                     
-                    <CardHeader className="relative">
-                      <div className="flex items-start justify-between mb-4">
+                    <CardHeader className="relative pb-4">
+                      <div className="flex items-start justify-between mb-3">
                         <motion.div
-                          className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${project.gradient} rounded-2xl shadow-lg`}
+                          className={`inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br ${project.gradient} rounded-xl shadow-lg`}
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
-                          <project.icon className="w-8 h-8 text-white" />
+                          <project.icon className="w-6 h-6 text-white" />
                         </motion.div>
                         {project.badge && (
                           <Badge className="bg-gradient-to-r from-emerald-500 to-green-600 text-white border-0 shadow-lg shadow-emerald-500/30">
@@ -1816,32 +1710,32 @@ export default function Home() {
                           </Badge>
                         )}
                       </div>
-                      <CardTitle className="text-2xl font-bold mb-2 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-emerald-400 group-hover:to-teal-400 group-hover:bg-clip-text transition-all duration-300">
+                      <CardTitle className="text-xl font-bold mb-1 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-emerald-400 group-hover:to-teal-400 group-hover:bg-clip-text transition-all duration-300">
                         {project.title}
                       </CardTitle>
-                      <CardDescription className="text-base text-slate-300">
+                      <CardDescription className="text-sm text-slate-300">
                         {project.desc}
                       </CardDescription>
                     </CardHeader>
                     
-                    <CardContent className="relative space-y-6">
+                    <CardContent className="relative space-y-4 pt-0">
                       <div>
-                        <h4 className="font-bold text-lg mb-3 flex items-center gap-2 text-white">
-                          <Star className="w-5 h-5 text-amber-400" />
+                        <h4 className="font-bold text-base mb-2 flex items-center gap-2 text-white">
+                          <Star className="w-4 h-4 text-amber-400" />
                           Core Features
                         </h4>
-                        <ul className="space-y-2">
+                        <ul className="space-y-1.5">
                           {project.features.map((feature, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                            <li key={i} className="flex items-start gap-2 text-xs text-slate-300">
                               <span className="w-1.5 h-1.5 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full mt-2 flex-shrink-0" />
                               {feature}
                             </li>
                           ))}
                         </ul>
                       </div>
-                      <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-700/50">
+                      <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-700/50">
                         {project.tags.map((tag, i) => (
-                          <Badge key={i} variant="secondary" className="bg-slate-800/70 text-slate-200 border border-slate-700/50">
+                          <Badge key={i} variant="secondary" className="bg-slate-800/70 text-[11px] text-slate-200 border border-slate-700/50 px-2 py-0.5">
                             {tag}
                           </Badge>
                         ))}
@@ -1856,7 +1750,7 @@ export default function Home() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-16 md:py-32 relative border-t border-cyan-500/10 bg-gradient-to-b from-transparent via-slate-900/20 to-transparent">
+      <section id="skills" className="py-16 md:py-32 relative border-t border-slate-600/25 bg-gradient-to-b from-transparent via-slate-900/20 to-transparent">
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-7xl mx-auto"
@@ -1881,7 +1775,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 mb-16">
+            <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 mb-16">
               {[
                 {
                   icon: Brain,
@@ -1906,6 +1800,18 @@ export default function Home() {
                   title: 'Frameworks & Tools',
                   gradient: 'from-orange-500 to-amber-500',
                   skills: ['TensorFlow / PyTorch', 'React / Next.js', 'Django / FastAPI', 'Docker / Kubernetes', 'Git / CI/CD']
+                },
+                {
+                  icon: Layers,
+                  title: 'Agentic & Automation',
+                  gradient: 'from-indigo-500 to-sky-500',
+                  skills: ['Agentic System Design', 'Workflow Automation', 'Multi-Agent Orchestration', 'Tool Calling Pipelines', 'Decision Flow Engineering']
+                },
+                {
+                  icon: Server,
+                  title: 'IoT & Smart Systems',
+                  gradient: 'from-emerald-500 to-cyan-500',
+                  skills: ['IoT Hardware Integration', 'SLM for Edge Intelligence', 'Smart System Architecture', 'Sensor Data Pipelines', 'Embedded AI Workflows']
                 }
               ].map((skill, index) => (
                 <motion.div
@@ -1945,30 +1851,12 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Animated Proficiency Bars */}
-            <motion.div variants={fadeInUp} className="max-w-4xl mx-auto mt-12 p-8 bg-slate-900/40 dark:bg-slate-950/60 backdrop-blur-lg border border-slate-700/50 rounded-2xl">
-              <h3 className="text-2xl font-bold mb-8 text-white flex items-center gap-2">
-                <span className="w-3 h-3 bg-gradient-to-br from-violet-400 to-purple-400 rounded-full animate-pulse" />
-                Proficiency Levels
-              </h3>
-              <div className="space-y-6">
-                {[
-                  { skill: 'Deep Learning & Neural Networks', percentage: 95 },
-                  { skill: 'Data Analysis & Processing', percentage: 92 },
-                  { skill: 'Full-Stack Development', percentage: 88 },
-                  { skill: 'Cloud Architecture & DevOps', percentage: 85 },
-                  { skill: 'Team Leadership & Mentorship', percentage: 90 }
-                ].map((item, idx) => (
-                  <SkillBar key={idx} skill={item.skill} percentage={item.percentage} delay={idx * 100} />
-                ))}
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 md:py-32 relative border-t border-cyan-500/10">
+      <section id="contact" className="py-16 md:py-32 relative border-t border-slate-600/25">
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-6xl mx-auto"
@@ -2009,21 +1897,21 @@ export default function Home() {
                   <CardContent className="relative space-y-6">
                     <div>
                       <label className="text-sm font-semibold mb-3 block text-white">Name</label>
-                      <Input placeholder="Your name" className="h-12 rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-cyan-500 transition-colors" />
+                      <Input placeholder="Your name" className="h-12 rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-sky-500 transition-colors" />
                     </div>
                     <div>
                       <label className="text-sm font-semibold mb-3 block text-white">Email</label>
-                      <Input type="email" placeholder="your@email.com" className="h-12 rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-cyan-500 transition-colors" />
+                      <Input type="email" placeholder="your@email.com" className="h-12 rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-sky-500 transition-colors" />
                     </div>
                     <div>
                       <label className="text-sm font-semibold mb-3 block text-white">Subject</label>
-                      <Input placeholder="What's this about?" className="h-12 rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-cyan-500 transition-colors" />
+                      <Input placeholder="What's this about?" className="h-12 rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-sky-500 transition-colors" />
                     </div>
                     <div>
                       <label className="text-sm font-semibold mb-3 block text-white">Message</label>
-                      <Textarea placeholder="Your message..." rows={5} className="rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-cyan-500 transition-colors resize-none" />
+                      <Textarea placeholder="Your message..." rows={5} className="rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-sky-500 transition-colors resize-none" />
                     </div>
-                    <Button className="w-full bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-white rounded-xl h-12 text-base font-semibold shadow-xl shadow-cyan-500/30">
+                    <Button className="w-full bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white rounded-xl h-12 text-base font-semibold shadow-xl shadow-sky-500/30">
                       Send Message
                       <Mail className="ml-2 w-5 h-5" />
                     </Button>
@@ -2034,7 +1922,7 @@ export default function Home() {
               {/* Contact Info */}
               <motion.div variants={fadeInUp} className="space-y-6">
                 <Card className="relative overflow-hidden border border-slate-700/50 bg-slate-900/40 dark:bg-slate-950/60 backdrop-blur-lg">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-cyan-500/15 to-violet-500/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-sky-500/15 to-indigo-500/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                   
                   <CardHeader className="relative">
                     <CardTitle className="text-2xl font-bold mb-2 text-white">Contact Information</CardTitle>
@@ -2053,7 +1941,7 @@ export default function Home() {
                         whileHover={{ x: 8 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
-                        <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-violet-500 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                        <div className="w-10 h-10 bg-gradient-to-br from-sky-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
                           <item.icon className="w-5 h-5 text-white" />
                         </div>
                         <span className="text-slate-200">{item.label}</span>
@@ -2101,12 +1989,12 @@ export default function Home() {
       </section>
 
       {/* Footer - Premium Style */}
-      <footer className="py-8 md:py-12 border-t border-cyan-500/10 bg-gradient-to-r from-slate-900 to-indigo-950/50">
+      <footer className="py-8 md:py-12 border-t border-slate-600/25 bg-gradient-to-r from-slate-900 to-indigo-950/50">
         <div className="container mx-auto px-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6">
             <div className="flex items-center gap-3">
               <motion.div
-                className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-violet-500 rounded-xl flex items-center justify-center shadow-xl shadow-cyan-500/30"
+                className="w-12 h-12 bg-gradient-to-br from-sky-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-xl shadow-sky-500/30"
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
@@ -2132,7 +2020,7 @@ export default function Home() {
                   key={i}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 bg-slate-800/60 hover:bg-gradient-to-br hover:from-cyan-500 hover:to-violet-500 rounded-xl flex items-center justify-center transition-all duration-300 group border border-slate-700/50 hover:border-cyan-500/50"
+                  className="w-10 h-10 bg-slate-800/60 hover:bg-gradient-to-br hover:from-sky-500 hover:to-indigo-500 rounded-xl flex items-center justify-center transition-all duration-300 group border border-slate-700/50 hover:border-sky-500/50"
                 >
                   <item.icon className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" />
                 </motion.button>
