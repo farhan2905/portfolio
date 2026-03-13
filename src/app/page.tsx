@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { useTheme } from 'next-themes'
+import InteractiveNeuralNetwork from '@/components/interactive-neural-network'
 import {
   Menu, X, ArrowRight, Sparkles, Award, Brain, GraduationCap, Rocket,
   Mail, Github, Linkedin, Twitter, MessageSquare, BarChart3, Camera, TrendingUp,
@@ -516,11 +516,10 @@ const DynamicSignalFlow = ({ layers }: { layers: Array<{ id: string; x: number; 
 // Epic Neural Network Landing Animation with Agentic Flow (11 seconds)
 const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void }) => {
   const layers = [
-    { id: 'input', x: 10, nodes: 5, label: 'Input Data', sublabel: 'Questions & Context', dataType: 'Questions' },
-    { id: 'hidden1', x: 30, nodes: 7, label: 'Processing Layer 1', sublabel: 'Feature Extraction', dataType: 'Patterns' },
-    { id: 'hidden2', x: 50, nodes: 8, label: 'Processing Layer 2', sublabel: 'Pattern Recognition', dataType: 'Insights' },
-    { id: 'hidden3', x: 70, nodes: 6, label: 'Processing Layer 3', sublabel: 'Decision Reasoning', dataType: 'Reasoning' },
-    { id: 'output', x: 90, nodes: 3, label: 'Agentic Decisions', sublabel: 'Calculated Answers', dataType: 'Answers' }
+    { id: 'input', x: 12, nodes: 5, label: 'Input Data', sublabel: 'Questions & Context', dataType: 'Questions' },
+    { id: 'hidden1', x: 37, nodes: 7, label: 'Processing Layer 1', sublabel: 'Feature Extraction', dataType: 'Patterns' },
+    { id: 'hidden2', x: 62, nodes: 8, label: 'Processing Layer 2', sublabel: 'Decision Reasoning', dataType: 'Reasoning' },
+    { id: 'output', x: 88, nodes: 3, label: 'Agentic Decisions', sublabel: 'Calculated Answers', dataType: 'Answers' }
   ]
 
   const containerVariants = {
@@ -562,12 +561,12 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
 
   return (
     <motion.div
-      className="fixed inset-0 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 z-50 flex items-center justify-center"
+      className="fixed inset-0 bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-900 z-50 flex items-center justify-center"
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 1.2 } }}
       onAnimationComplete={() => {
-        setTimeout(() => onComplete(), 4400)
+        setTimeout(() => onComplete(), 3600)
       }}
     >
       <svg className="w-full h-full max-w-4xl" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
@@ -841,7 +840,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
           </motion.g>
         ))}
 
-        {/* Progress indicator - Extended to 14s for complete formation with data transformation */}
+        {/* Progress indicator */}
         <motion.rect
           x="200"
           y="520"
@@ -849,7 +848,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
           height="4"
           fill="url(#layerGradient)"
           animate={{ width: 600 }}
-          transition={{ duration: 14, ease: 'easeInOut' }}
+          transition={{ duration: 8, ease: 'easeInOut' }}
           rx="2"
         />
       </svg>
@@ -858,13 +857,13 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
 }
 
 export default function Home() {
-  const { theme } = useTheme()
   const [activeSection, setActiveSection] = useState('hero')
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [floatingCodeIndex, setFloatingCodeIndex] = useState(0)
   const [showLanding, setShowLanding] = useState(true)
+  const mouseFrameRef = useRef<number | null>(null)
+  const pendingMouseRef = useRef({ x: 0, y: 0 })
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollY } = useScroll()
 
@@ -902,10 +901,17 @@ export default function Home() {
     }
 
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
+      pendingMouseRef.current = {
         x: e.clientX,
-        y: e.clientY
-      })
+        y: e.clientY,
+      }
+
+      if (mouseFrameRef.current === null) {
+        mouseFrameRef.current = requestAnimationFrame(() => {
+          setMousePosition(pendingMouseRef.current)
+          mouseFrameRef.current = null
+        })
+      }
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -913,6 +919,9 @@ export default function Home() {
     return () => {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('mousemove', handleMouseMove)
+      if (mouseFrameRef.current !== null) {
+        cancelAnimationFrame(mouseFrameRef.current)
+      }
     }
   }, [])
 
@@ -925,7 +934,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 dark:from-slate-950 dark:via-indigo-950 dark:to-slate-950 text-foreground overflow-x-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-900 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950 text-foreground overflow-x-hidden relative">
       {/* Epic Neural Network Landing Animation */}
       <AnimatePresence>
         {showLanding && (
@@ -947,7 +956,7 @@ export default function Home() {
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {/* Neon Cyan Orb */}
         <motion.div
-          className="absolute top-20 left-1/4 w-[900px] h-[900px] bg-gradient-to-br from-cyan-500/25 via-blue-500/15 to-transparent rounded-full blur-3xl"
+          className="absolute top-20 left-1/4 w-[760px] h-[760px] bg-gradient-to-br from-sky-400/16 via-indigo-400/10 to-transparent rounded-full blur-3xl"
           animate={{
             x: [0, 120, 0],
             y: [0, -80, 0],
@@ -962,7 +971,7 @@ export default function Home() {
         />
         {/* Neon Lime Orb */}
         <motion.div
-          className="absolute bottom-0 right-1/3 w-[700px] h-[700px] bg-gradient-to-bl from-lime-500/20 via-emerald-500/10 to-transparent rounded-full blur-3xl"
+          className="absolute bottom-0 right-1/3 w-[620px] h-[620px] bg-gradient-to-bl from-teal-400/12 via-emerald-400/8 to-transparent rounded-full blur-3xl"
           animate={{
             x: [0, -100, 0],
             y: [0, 100, 0],
@@ -978,7 +987,7 @@ export default function Home() {
         />
         {/* Neon Violet Orb */}
         <motion.div
-          className="absolute top-1/3 -left-1/4 w-[800px] h-[800px] bg-gradient-to-r from-violet-500/20 to-blue-500/10 rounded-full blur-3xl"
+          className="absolute top-1/3 -left-1/4 w-[680px] h-[680px] bg-gradient-to-r from-indigo-400/14 to-blue-400/8 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.25, 1],
             rotate: [360, 180, 0],
@@ -1005,11 +1014,11 @@ export default function Home() {
         />
         {/* Interactive Mouse-Following Gradient - Neon */}
         <motion.div
-          className="fixed w-96 h-96 rounded-full blur-3xl opacity-40"
+          className="fixed w-80 h-80 rounded-full blur-3xl opacity-30"
           style={{
-            background: `radial-gradient(circle, rgba(0, 217, 255, 0.25) 0%, transparent 70%)`,
-            left: mousePosition.x + '%',
-            top: mousePosition.y + '%',
+            background: `radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 72%)`,
+            left: mousePosition.x,
+            top: mousePosition.y,
             x: '-50%',
             y: '-50%',
           }}
@@ -1018,7 +1027,7 @@ export default function Home() {
 
       {/* Premium Neon Progress Bar */}
       <motion.div 
-        className="fixed top-0 left-0 right-0 h-1.5 z-50 bg-gradient-to-r from-cyan-500 via-violet-500 to-lime-500 shadow-lg shadow-cyan-500/50"
+        className="fixed top-0 left-0 right-0 h-1.5 z-50 bg-gradient-to-r from-sky-500 via-indigo-500 to-emerald-500 shadow-lg shadow-sky-500/35"
         style={{ scaleX: scrollProgress / 100, transformOrigin: 'left' }}
       />
 
@@ -1029,8 +1038,8 @@ export default function Home() {
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
       >
-        <div className="bg-slate-900/50 dark:bg-slate-950/60 backdrop-blur-2xl border border-cyan-500/20 dark:border-cyan-500/30 rounded-2xl px-2 py-2 shadow-2xl shadow-cyan-500/20 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="bg-slate-800/55 dark:bg-slate-900/60 backdrop-blur-2xl border border-sky-500/20 dark:border-sky-500/25 rounded-2xl px-2 py-2 shadow-2xl shadow-sky-500/15 relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-r from-sky-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="hidden md:flex items-center gap-1 relative z-10">
             {[
               { id: 'about', label: 'About' },
@@ -1044,14 +1053,14 @@ export default function Home() {
                 onClick={() => scrollToSection(item.id)}
                 className={`relative px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 ${
                   activeSection === item.id
-                    ? 'text-cyan-400 dark:text-cyan-300'
+                    ? 'text-sky-300 dark:text-sky-300'
                     : 'text-slate-400 dark:text-slate-400 hover:text-slate-200 dark:hover:text-slate-200'
                 }`}
               >
                 {activeSection === item.id && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-violet-500/20 dark:from-cyan-500/15 dark:to-violet-500/15 rounded-xl border border-cyan-500/40"
+                    className="absolute inset-0 bg-gradient-to-r from-sky-500/20 to-indigo-500/20 dark:from-sky-500/15 dark:to-indigo-500/15 rounded-xl border border-sky-500/35"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -1061,7 +1070,7 @@ export default function Home() {
             <Button
               size="sm"
               onClick={() => scrollToSection('contact')}
-              className="ml-2 bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-white rounded-xl shadow-lg shadow-cyan-500/30 font-semibold"
+              className="ml-2 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white rounded-xl shadow-lg shadow-sky-500/25 font-semibold"
             >
               Contact
             </Button>
@@ -1115,7 +1124,7 @@ export default function Home() {
       {/* Hero Section - Premium Enhanced */}
       <section id="hero" className="min-h-screen flex items-center justify-center relative pt-24 pb-16 overflow-hidden" ref={heroRef}>
         {/* Neural Network Background - AI-Inspired Effect */}
-        <div className="absolute inset-0 opacity-40">
+        <div className="absolute inset-0 opacity-28">
           <NeuralNetworkBackground heroRef={heroRef} />
         </div>
 
@@ -1123,164 +1132,29 @@ export default function Home() {
           className="container mx-auto px-4 relative z-10"
           style={{ opacity, scale }}
         >
-          <div className="max-w-5xl mx-auto text-center">
-            {/* Premium Animated Badge with Neon */}
+          <div className="max-w-7xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              className="inline-flex items-center gap-3 mb-8"
+              transition={{ delay: 0.22, duration: 0.7 }}
+              className="relative rounded-3xl border border-slate-600/30 bg-slate-900/45 backdrop-blur-xl overflow-hidden h-[72vh] min-h-[560px]"
             >
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-violet-500 rounded-full blur-2xl opacity-50 animate-pulse" />
-                <div className="relative bg-slate-900/60 dark:bg-slate-950/70 backdrop-blur-xl border border-cyan-500/40 rounded-full px-6 py-3">
-                  <div className="flex items-center gap-2">
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                    >
-                      <Sparkles className="w-5 h-5 text-cyan-400" />
-                    </motion.div>
-                    <span className="text-sm font-bold bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent">
-                       Data Scientist • AI/ML Expert
-                    </span>
-                  </div>
+              <div className="absolute left-4 sm:left-6 top-4 sm:top-6 z-20">
+                <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-slate-800/70 px-3 py-1.5 backdrop-blur-md mb-2">
+                  <Sparkles className="w-3.5 h-3.5 text-sky-300" />
+                  <span className="text-[11px] sm:text-xs font-semibold text-sky-200">Interactive Neural Network</span>
                 </div>
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-slate-100">
+                  Farhan Siddiqui
+                </h1>
+                <p className="text-xs sm:text-sm text-slate-300/90 mt-1">
+                  AI/ML Mentor & Agentic Systems Designer
+                </p>
               </div>
-            </motion.div>
 
-            {/* Epic Main Heading */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="mb-8"
-            >
-              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-black tracking-wider mb-6 leading-tight">
-                <span className="block mb-2 text-white">Farhan</span>
-                <span className="relative inline-block bg-gradient-to-r from-cyan-400 via-violet-400 to-lime-400 bg-clip-text text-transparent drop-shadow-lg">
-                  Siddiqui
-                  <svg
-                    className="absolute -bottom-2 left-0 w-full"
-                    viewBox="0 0 300 12"
-                    fill="none"
-                  >
-                    <path
-                      d="M2 10C50 2 150 2 298 10"
-                      stroke="url(#neonGradient)"
-                      strokeWidth="5"
-                      strokeLinecap="round"
-                      filter="drop-shadow(0 0 8px rgba(0, 217, 255, 0.8))"
-                    />
-                    <defs>
-                      <linearGradient id="neonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#00D9FF" />
-                        <stop offset="50%" stopColor="#B620E0" />
-                        <stop offset="100%" stopColor="#00FF88" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                </span>
-              </h1>
-            </motion.div>
-
-            {/* Premium Subtitle - Fixed HTML Structure */}
-            <div className="text-lg sm:text-xl md:text-2xl lg:text-4xl font-bold text-slate-200 dark:text-slate-100 mb-8 leading-tight">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-              >
-                Mastering{' '}
-                <span className="relative inline-block">
-                  <span className="bg-gradient-to-r from-cyan-400 via-violet-400 to-lime-400 bg-clip-text text-transparent font-black">
-                    AI Intelligence
-                  </span>
-                  <motion.div
-                    className="absolute -bottom-2 left-0 w-full h-4 bg-gradient-to-r from-cyan-500/40 to-violet-500/40 -z-10 blur-sm"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ delay: 1, duration: 0.6 }}
-                  />
-                </span>
-                {' '}& Development
-              </motion.div>
-            </div>
-
-            {/* Epic Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-              className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 dark:text-slate-300 mb-14 max-w-3xl mx-auto leading-relaxed font-medium"
-            >
-               faculty bridging academia and industry, transforming cutting-edge AI/ML research into production-ready intelligence systems. Expert in deep learning, NLP, computer vision, and enterprise development.
-            </motion.p>
-
-            {/* Premium CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.8 }}
-              className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-5 mb-20"
-            >
-              <Button
-                size="lg"
-                onClick={() => scrollToSection('ai-projects')}
-                className="group bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-white rounded-2xl px-6 sm:px-8 md:px-10 py-4 sm:py-5 md:py-7 text-sm sm:text-base md:text-lg font-bold shadow-2xl shadow-cyan-500/40 hover:shadow-cyan-500/60 transition-all duration-300 border border-cyan-400/50"
-              >
-                Explore AI Projects
-                <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={() => scrollToSection('contact')}
-                className="rounded-2xl px-6 sm:px-8 md:px-10 py-4 sm:py-5 md:py-7 text-sm sm:text-base md:text-lg font-bold border-2 border-violet-500/50 hover:bg-violet-500/10 dark:hover:bg-violet-500/10 text-slate-200 hover:text-white transition-all duration-300"
-              >
-                Get In Touch
-              </Button>
-            </motion.div>
-
-            {/* Premium Stats Grid */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 0.8 }}
-              className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto"
-            >
-              {[
-                { value: '7+', label: 'Years Experience', icon: Award },
-                { value: '50+', label: 'AI Projects', icon: Brain },
-                { value: '1000+', label: 'Students Taught', icon: GraduationCap },
-                { value: '10+', label: 'Products Built', icon: Rocket },
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  className="group relative"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2 + index * 0.1, duration: 0.6 }}
-                  whileHover={{ y: -8 }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/15 to-violet-500/15 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
-                  <div className="relative bg-slate-900/60 dark:bg-slate-950/70 backdrop-blur-lg border border-cyan-500/20 rounded-2xl p-6 text-center hover:border-cyan-500/40 transition-colors">
-                    <motion.div
-                      className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-cyan-500 to-violet-500 rounded-xl mb-4 shadow-lg shadow-cyan-500/30"
-                      whileHover={{ scale: 1.15, rotate: 5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <stat.icon className="w-6 h-6 text-white" />
-                    </motion.div>
-                    <div className="text-4xl font-black bg-gradient-to-r from-cyan-400 to-lime-400 bg-clip-text text-transparent mb-2">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm font-semibold text-slate-400">
-                      {stat.label}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+              <div className="absolute inset-0">
+                <InteractiveNeuralNetwork />
+              </div>
             </motion.div>
           </div>
         </motion.div>
@@ -1292,10 +1166,10 @@ export default function Home() {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-b from-cyan-500 to-violet-500 rounded-full blur-lg opacity-60" />
-            <div className="relative w-8 h-12 bg-slate-900/60 dark:bg-slate-950/70 backdrop-blur-lg border border-cyan-500/40 rounded-full flex items-start justify-center p-2">
+            <div className="absolute inset-0 bg-gradient-to-b from-sky-500 to-indigo-500 rounded-full blur-lg opacity-50" />
+            <div className="relative w-8 h-12 bg-slate-800/60 dark:bg-slate-900/70 backdrop-blur-lg border border-sky-500/40 rounded-full flex items-start justify-center p-2">
               <motion.div
-                className="w-1.5 h-1.5 bg-gradient-to-b from-cyan-400 to-violet-400 rounded-full shadow-lg shadow-cyan-500/50"
+                className="w-1.5 h-1.5 bg-gradient-to-b from-sky-400 to-indigo-400 rounded-full shadow-lg shadow-sky-500/40"
                 animate={{ y: [0, 16, 0] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               />
