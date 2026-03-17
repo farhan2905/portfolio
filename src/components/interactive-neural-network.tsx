@@ -461,7 +461,7 @@ export default function InteractiveNeuralNetwork() {
 
       const nodeMap = Object.fromEntries(updatedNodes.map((node) => [node.id, node])) as Record<string, AnimatedNode>
 
-      context.fillStyle = 'rgba(148, 163, 184, 0.08)'
+      context.fillStyle = 'rgba(0, 0, 0, 0.08)'
       for (let x = 0; x < canvas.width; x += 44) {
         for (let y = 0; y < canvas.height; y += 44) {
           context.beginPath()
@@ -500,13 +500,13 @@ export default function InteractiveNeuralNetwork() {
         context.quadraticCurveTo(controlX, controlY, toX, toY)
 
         if (highlighted) {
-          context.strokeStyle = 'rgba(59, 130, 246, 0.9)'
+          context.strokeStyle = 'rgba(0, 0, 0, 0.9)'
           context.lineWidth = 2
-          context.shadowColor = 'rgba(59, 130, 246, 0.8)'
+          context.shadowColor = 'rgba(0, 0, 0, 0.8)'
           context.shadowBlur = 12
         } else {
           const pulse = 0.12 + Math.sin(tick * 0.02) * 0.03
-          context.strokeStyle = `rgba(148, 163, 184, ${pulse})`
+          context.strokeStyle = `rgba(0, 0, 0, ${pulse + 0.1})`
           context.lineWidth = 1
           context.shadowBlur = 0
         }
@@ -632,7 +632,7 @@ export default function InteractiveNeuralNetwork() {
             onClick={() => setSelectedNode(node)}
           >
             <span style={{ color: config.color }} className="mb-0.5">{node.icon}</span>
-            <span className="text-[8px] sm:text-[9px] font-medium text-slate-100 leading-tight px-1 text-center">
+            <span className="text-[8px] sm:text-[9px] font-bold text-black leading-tight px-1 text-center">
               {node.label}
             </span>
           </motion.button>
@@ -645,9 +645,9 @@ export default function InteractiveNeuralNetwork() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 30 }}
-            className="absolute right-3 top-3 bottom-3 w-[320px] max-w-[42vw] bg-slate-900/95 border border-slate-700/70 rounded-2xl overflow-hidden flex flex-col backdrop-blur-xl"
+            className="absolute right-3 top-3 bottom-3 w-[320px] max-w-[42vw] bg-white/80 border border-slate-200 rounded-2xl overflow-hidden flex flex-col backdrop-blur-xl"
           >
-            <div className="px-4 py-3 border-b border-slate-700/70 flex items-center justify-between">
+            <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div
                   className="w-9 h-9 rounded-full flex items-center justify-center"
@@ -661,27 +661,27 @@ export default function InteractiveNeuralNetwork() {
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
-                className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center"
+                className="w-8 h-8 rounded-lg bg-black/5 hover:bg-black/10 text-slate-500 hover:text-black flex items-center justify-center transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             <div className="p-4 overflow-y-auto flex-1">
-              <h3 className="text-xl font-bold text-slate-100 mb-1">{selectedNode.details.title}</h3>
+              <h3 className="text-xl font-bold text-black mb-1">{selectedNode.details.title}</h3>
               {selectedNode.details.subtitle && (
                 <p className={`text-sm mb-4 ${CATEGORY_CONFIG[selectedNode.category].textColor}`}>
                   {selectedNode.details.subtitle}
                 </p>
               )}
-              <p className="text-sm leading-relaxed text-slate-300 mb-5">{selectedNode.details.content}</p>
+              <p className="text-sm leading-relaxed text-slate-600 mb-5">{selectedNode.details.content}</p>
 
               {selectedNode.details.tags && (
                 <>
-                  <p className="text-[11px] uppercase tracking-wider text-slate-500 mb-2">Technologies</p>
+                  <p className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold mb-2">Technologies</p>
                   <div className="flex flex-wrap gap-2 mb-5">
                     {selectedNode.details.tags.map((tag) => (
-                      <span key={tag} className="px-2 py-1 rounded-md text-xs bg-slate-800 border border-slate-700 text-slate-300">
+                      <span key={tag} className="px-2 py-1 rounded-md text-xs bg-slate-100 border border-slate-200 text-black font-medium">
                         {tag}
                       </span>
                     ))}
@@ -695,7 +695,7 @@ export default function InteractiveNeuralNetwork() {
                     <a
                       key={link.label}
                       href={link.url}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-100 text-sm"
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-black/5 hover:bg-black/10 text-black font-medium text-sm transition-colors"
                     >
                       <ExternalLink className="w-4 h-4" />
                       {link.label}
@@ -705,13 +705,13 @@ export default function InteractiveNeuralNetwork() {
               )}
             </div>
 
-            <div className="p-4 border-t border-slate-700/70 flex gap-2">
-              <button className="flex-1 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm text-white flex items-center justify-center gap-2">
+            <div className="p-4 border-t border-slate-200 flex gap-2">
+              <button className="flex-1 px-3 py-2 rounded-lg bg-black hover:bg-black/80 text-sm text-white font-medium flex items-center justify-center gap-2 transition-colors">
                 <Github className="w-4 h-4" />
                 View Code
               </button>
               <button
-                className="flex-1 px-3 py-2 rounded-lg text-sm text-white flex items-center justify-center gap-2"
+                className="flex-1 px-3 py-2 rounded-lg text-sm text-white font-medium flex items-center justify-center gap-2 transition-colors"
                 style={{ backgroundColor: CATEGORY_CONFIG[selectedNode.category].color }}
               >
                 <ExternalLink className="w-4 h-4" />

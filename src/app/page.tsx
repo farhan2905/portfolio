@@ -122,8 +122,8 @@ const NeuralNetworkBackground = ({ heroRef }: { heroRef: React.RefObject<HTMLDiv
     <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
       <defs>
         <linearGradient id="nodeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#00D9FF" stopOpacity="0.8" />
-          <stop offset="50%" stopColor="#B620E0" stopOpacity="0.6" />
+          <stop offset="0%" stopColor="#4DEEFF" stopOpacity="0.8" />
+          <stop offset="50%" stopColor="#D966FF" stopOpacity="0.6" />
           <stop offset="100%" stopColor="#00FF88" stopOpacity="0.8" />
         </linearGradient>
         <filter id="nodeShadow">
@@ -287,7 +287,7 @@ const DynamicSignalFlow = ({ layers }: { layers: Array<{ id: string; x: number; 
               strokeWidth="2"
               opacity={0.6 * (1 - layerProgress)}
               style={{
-                filter: 'drop-shadow(0 0 12px rgba(0, 217, 255, 0.8))',
+                filter: 'drop-shadow(0 0 12px rgba(77, 238, 255, 0.8))',
               }}
             />
 
@@ -296,9 +296,9 @@ const DynamicSignalFlow = ({ layers }: { layers: Array<{ id: string; x: number; 
               cx={x}
               cy={y}
               r={3}
-              fill="#B620E0"
+              fill="#D966FF"
               style={{
-                filter: 'drop-shadow(0 0 8px rgba(182, 32, 224, 1))',
+                filter: 'drop-shadow(0 0 8px rgba(217, 102, 255, 1))',
               }}
             />
 
@@ -366,7 +366,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
 
   return (
     <motion.div
-      className="fixed inset-0 bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-900 z-50 flex items-center justify-center"
+      className="fixed inset-0  z-50 flex items-center justify-center"
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 1.2 } }}
@@ -378,8 +378,8 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
       >
         <defs>
           <linearGradient id="layerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00D9FF" stopOpacity="1" />
-            <stop offset="50%" stopColor="#B620E0" stopOpacity="0.8" />
+            <stop offset="0%" stopColor="#4DEEFF" stopOpacity="1" />
+            <stop offset="50%" stopColor="#D966FF" stopOpacity="0.8" />
             <stop offset="100%" stopColor="#00FF88" stopOpacity="1" />
           </linearGradient>
           <filter id="nodeShadowLanding">
@@ -436,7 +436,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
                       <motion.path
                         key={`line-${layerIdx}-${nodeIdx}-${nextNodeIdx}`}
                         d={`M ${node.x} ${node.y} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${nextNode.x} ${nextNode.y}`}
-                        stroke="url(#layerGradient)"
+                        stroke="black"
                         strokeWidth="1.5"
                         fill="none"
                         opacity="0"
@@ -475,7 +475,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
                 x={(layer.x / 100) * 1000}
                 y={35}
                 textAnchor="middle"
-                className="text-sm font-bold fill-cyan-400"
+                className="text-sm font-bold fill-black"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -492,7 +492,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
                 x={(layer.x / 100) * 1000}
                 y={52}
                 textAnchor="middle"
-                className="text-xs fill-lime-400/70"
+                className="text-xs fill-black opacity-70"
                 initial={{ opacity: 0, y: -15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -510,7 +510,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
                 y1={100}
                 x2={(layer.x / 100) * 1000 + 50}
                 y2={100}
-                stroke="url(#layerGradient)"
+                stroke="black"
                 strokeWidth="1"
                 opacity="0"
                 initial={{ opacity: 0 }}
@@ -561,7 +561,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
                     }}
                     filter="url(#nodeShadowLanding)"
                     style={{
-                      boxShadow: '0 0 20px rgba(0, 217, 255, 0.8)',
+                      boxShadow: '0 0 20px rgba(77, 238, 255, 0.8)',
                     }}
                   />
 
@@ -600,7 +600,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
             x="500"
             y="300"
             textAnchor="middle"
-            className="text-4xl font-black fill-white"
+            className="text-4xl font-black fill-black"
             style={{ fontSize: '48px', fontWeight: 'black' }}
           >
             Farhan Siddiqui
@@ -609,7 +609,8 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
             x="500"
             y="360"
             textAnchor="middle"
-            className="text-2xl fill-cyan-400"
+            className="text-2xl"
+            fill="url(#layerGradient)"
             style={{ fontSize: '24px', fontWeight: 'bold' }}
           >
             AI/ML & Full-Stack Developer
@@ -618,7 +619,8 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
             x="500"
             y="400"
             textAnchor="middle"
-            className="text-base fill-slate-300"
+            className="text-base"
+            fill="url(#layerGradient)"
             style={{ fontSize: '16px' }}
           >
             Neural Networks • Deep Learning • Data Science
@@ -632,7 +634,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
               x={(layer.x / 100) * 1000}
               y={575}
               textAnchor="middle"
-              className="text-xs fill-cyan-300/60"
+              className="text-xs fill-black opacity-60"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{
@@ -641,7 +643,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
               }}
               style={{ fontSize: '11px', fontWeight: '600' }}
             >
-              ↓ {layer.dataType}
+              Ôåô {layer.dataType}
             </motion.text>
           </motion.g>
         ))}
@@ -652,7 +654,7 @@ const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void 
           y="520"
           width="0"
           height="4"
-          fill="url(#layerGradient)"
+          fill="black"
           animate={{ width: 600 }}
           transition={{ duration: 4.8, ease: 'easeInOut' }}
           rx="2"
@@ -759,7 +761,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-900 dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950 text-foreground overflow-x-hidden relative">
+    <div className="min-h-screen  dark:from-slate-900 dark:via-slate-900 dark:to-indigo-950 text-foreground overflow-x-hidden relative">
       {/* Epic Neural Network Landing Animation */}
       <AnimatePresence>
         {landingActive && (
@@ -782,7 +784,7 @@ export default function Home() {
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {/* Neon Cyan Orb */}
         <motion.div
-          className="absolute top-20 left-1/4 w-[760px] h-[760px] bg-gradient-to-br from-sky-400/16 via-indigo-400/10 to-transparent rounded-full blur-3xl"
+          className="absolute top-20 left-1/4 w-[760px] h-[760px] bg-gradient-to-br from-sky-400/16 via-indigo-400/10 to-transparent rounded-full "
           animate={{
             x: [0, 120, 0],
             y: [0, -80, 0],
@@ -793,11 +795,10 @@ export default function Home() {
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          style={{ y: backgroundY }}
         />
         {/* Neon Lime Orb */}
         <motion.div
-          className="absolute bottom-0 right-1/3 w-[620px] h-[620px] bg-gradient-to-bl from-teal-400/12 via-emerald-400/8 to-transparent rounded-full blur-3xl"
+          className="absolute bottom-0 right-1/3 w-[620px] h-[620px] bg-gradient-to-bl from-teal-400/12 via-emerald-400/8 to-transparent rounded-full "
           animate={{
             x: [0, -100, 0],
             y: [0, 100, 0],
@@ -809,11 +810,10 @@ export default function Home() {
             ease: "easeInOut",
             delay: 1
           }}
-          style={{ y: backgroundY }}
         />
         {/* Neon Violet Orb */}
         <motion.div
-          className="absolute top-1/3 -left-1/4 w-[680px] h-[680px] bg-gradient-to-r from-indigo-400/14 to-blue-400/8 rounded-full blur-3xl"
+          className="absolute top-1/3 -left-1/4 w-[680px] h-[680px]  rounded-full "
           animate={{
             scale: [1, 1.25, 1],
             rotate: [360, 180, 0],
@@ -827,7 +827,7 @@ export default function Home() {
         />
         {/* Central Mesh Gradient */}
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-gradient-to-r from-indigo-500/8 via-transparent to-cyan-500/8 rounded-full blur-3xl"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-gradient-to-r from-indigo-500/8 via-transparent to-cyan-500/8 rounded-full "
           animate={{
             scale: [1, 1.3, 1],
             rotate: [0, 180, 360],
@@ -840,7 +840,7 @@ export default function Home() {
         />
         {/* Interactive Mouse-Following Gradient - Neon */}
         <motion.div
-          className="fixed w-80 h-80 rounded-full blur-3xl opacity-30"
+          className="fixed w-80 h-80 rounded-full  opacity-30"
           style={{
             background: `radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 72%)`,
             left: mousePosition.x,
@@ -858,7 +858,7 @@ export default function Home() {
 
       {/* Premium Neon Progress Bar */}
       <motion.div 
-        className="fixed top-0 left-0 right-0 h-1.5 z-50 bg-gradient-to-r from-sky-500 via-indigo-500 to-emerald-500 shadow-lg shadow-sky-500/35"
+        className="fixed top-0 left-0 right-0 h-1.5 z-50   "
         style={{ scaleX: scrollProgress / 100, transformOrigin: 'left' }}
       />
 
@@ -869,8 +869,8 @@ export default function Home() {
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
       >
-        <div className="bg-slate-800/55 dark:bg-slate-900/60 backdrop-blur-2xl border border-sky-500/20 dark:border-sky-500/25 rounded-2xl px-2 py-2 shadow-2xl shadow-sky-500/15 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-r from-sky-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="bg-white dark:bg-black dark:bg-white dark:bg-black  border  dark: rounded-2xl px-2 py-2   relative overflow-hidden group">
+          <div className="absolute inset-0  opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="hidden md:flex items-center gap-1 relative z-10">
             {[
               { id: 'about', label: 'About' },
@@ -883,14 +883,14 @@ export default function Home() {
                 onClick={() => scrollToSection(item.id)}
                 className={`relative px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 ${
                   activeSection === item.id
-                    ? 'text-sky-300 dark:text-sky-300'
-                    : 'text-slate-400 dark:text-slate-400 hover:text-slate-200 dark:hover:text-slate-200'
+                    ? 'text-black dark:text-black dark:text-white dark:text-black dark:text-black dark:text-white'
+                    : 'text-black dark:text-black dark:text-white dark:text-black dark:text-black dark:text-white hover:text-black dark:text-black dark:text-white dark:hover:text-black dark:text-black dark:text-white'
                 }`}
               >
                 {activeSection === item.id && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute inset-0 bg-gradient-to-r from-sky-500/20 to-indigo-500/20 dark:from-sky-500/15 dark:to-indigo-500/15 rounded-xl border border-sky-500/35"
+                    className="absolute inset-0  dark:from-sky-500/15 dark:to-indigo-500/15 rounded-xl border "
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -900,16 +900,16 @@ export default function Home() {
             <Button
               size="sm"
               onClick={() => scrollToSection('contact')}
-              className="ml-2 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white rounded-xl shadow-lg shadow-sky-500/25 font-semibold"
+              className="ml-2 bg-black text-white hover:bg-black/80 rounded-xl font-semibold"
             >
               Contact
             </Button>
           </div>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-slate-700/50 dark:hover:bg-slate-800/50 transition-colors relative z-10"
+            className="md:hidden p-2 rounded-lg hover:bg-white dark:bg-black dark:hover:bg-white dark:bg-black transition-colors relative z-10"
           >
-            {isMenuOpen ? <X className="w-5 h-5 text-sky-400" /> : <Menu className="w-5 h-5 text-sky-400" />}
+            {isMenuOpen ? <X className="w-5 h-5 text-black dark:text-black dark:text-white" /> : <Menu className="w-5 h-5 text-black dark:text-black dark:text-white" />}
           </button>
         </div>
 
@@ -921,9 +921,9 @@ export default function Home() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden absolute top-full left-0 right-0 mt-2 bg-slate-900/60 dark:bg-slate-950/70 backdrop-blur-2xl border border-sky-500/20 rounded-2xl p-4 shadow-2xl shadow-sky-500/10 relative overflow-hidden"
+              className="md:hidden absolute top-full left-0 right-0 mt-2 bg-white dark:bg-black dark:bg-white dark:bg-black  border  rounded-2xl p-4   relative overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-indigo-500/5" />
+              <div className="absolute inset-0 " />
               <div className="flex flex-col gap-2 relative z-10">
                 {[
                   { id: 'about', label: 'About' },
@@ -936,8 +936,8 @@ export default function Home() {
                     onClick={() => scrollToSection(item.id)}
                     className={`px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all ${
                       activeSection === item.id
-                        ? 'bg-gradient-to-r from-sky-500/20 to-indigo-500/20 text-sky-300 dark:text-sky-300 border border-sky-500/40'
-                        : 'text-slate-400 dark:text-slate-400 hover:bg-slate-800/50 dark:hover:bg-slate-800/50'
+                        ? ' text-black dark:text-black dark:text-white dark:text-black dark:text-black dark:text-white border '
+                        : 'text-black dark:text-black dark:text-white dark:text-black dark:text-black dark:text-white hover:bg-white dark:bg-black dark:hover:bg-white dark:bg-black'
                     }`}
                   >
                     {item.label}
@@ -946,7 +946,7 @@ export default function Home() {
                 <Button
                   size="sm"
                   onClick={() => scrollToSection('contact')}
-                  className="w-full mt-2 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white font-semibold"
+                  className="w-full mt-2 bg-black text-white hover:bg-black/80 font-semibold"
                 >
                   Contact
                 </Button>
@@ -974,17 +974,17 @@ export default function Home() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.22, duration: 0.7 }}
-              className="relative rounded-3xl border border-slate-600/30 bg-slate-900/45 backdrop-blur-xl overflow-hidden h-[85vh] md:h-[72vh] min-h-[600px] md:min-h-[560px]"
+              className="relative rounded-3xl border  bg-white dark:bg-black  overflow-hidden h-[85vh] md:h-[72vh] min-h-[600px] md:min-h-[560px]"
             >
               <div className="absolute left-4 sm:left-6 top-4 sm:top-6 z-20">
-                <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-slate-800/70 px-3 py-1.5 backdrop-blur-md mb-2">
-                  <Sparkles className="w-3.5 h-3.5 text-sky-300" />
-                  <span className="text-[11px] sm:text-xs font-semibold text-sky-200">Interactive Neural Network</span>
+                <div className="inline-flex items-center gap-2 rounded-full border  bg-white dark:bg-black px-3 py-1.5  mb-2">
+                  <Sparkles className="w-3.5 h-3.5 text-black dark:text-black dark:text-white" />
+                  <span className="text-[11px] sm:text-xs font-semibold text-black dark:text-black dark:text-white">Interactive Neural Network</span>
                 </div>
-                <h1 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-slate-100">
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-black dark:text-black dark:text-white">
                   Farhan Siddiqui
                 </h1>
-                <p className="text-xs sm:text-sm text-slate-300/90 mt-1">
+                <p className="text-xs sm:text-sm text-black dark:text-black dark:text-white mt-1">
                   AI/ML Mentor & Agentic Systems Designer
                 </p>
               </div>
@@ -1003,10 +1003,10 @@ export default function Home() {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-b from-sky-500 to-indigo-500 rounded-full blur-lg opacity-50" />
-            <div className="relative w-8 h-12 bg-slate-800/60 dark:bg-slate-900/70 backdrop-blur-lg border border-sky-500/40 rounded-full flex items-start justify-center p-2">
+            <div className="absolute inset-0  rounded-full  opacity-50" />
+            <div className="relative w-8 h-12 bg-white dark:bg-black dark:bg-white dark:bg-black  border  rounded-full flex items-start justify-center p-2">
               <motion.div
-                className="w-1.5 h-1.5 bg-gradient-to-b from-sky-400 to-indigo-400 rounded-full shadow-lg shadow-sky-500/40"
+                className="w-1.5 h-1.5  rounded-full  "
                 animate={{ y: [0, 16, 0] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               />
@@ -1016,7 +1016,7 @@ export default function Home() {
       </section>
 
       {/* About Section - Coming Next */}
-      <section id="about" className="py-16 md:py-32 relative border-t border-slate-600/25">
+      <section id="about" className="py-16 md:py-32 relative border-t ">
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-7xl mx-auto"
@@ -1024,42 +1024,40 @@ export default function Home() {
           >
             {/* Section Header with Neon Badge */}
             <motion.div variants={fadeInUp} className="text-center mb-20">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500/15 to-violet-500/15 border border-cyan-500/30 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
-                <span className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-lime-400 rounded-full animate-pulse" />
-                <span className="text-sm font-bold text-cyan-300">About Me</span>
+              <div className="inline-flex items-center gap-2  border  rounded-full px-5 py-2 mb-6 ">
+                <span className="w-2 h-2  rounded-full animate-pulse" />
+                <span className="text-sm font-bold text-black dark:text-black dark:text-white">About Me</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-white">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-black dark:text-white">
                 Bridging Academia
-                <span className="block bg-gradient-to-r from-cyan-400 to-violet-400 bg-clip-text text-transparent">
+                <span className="block  text-sketch">
                   & Industry Excellence
                 </span>
               </h2>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto">
-                If you are asking “tell me about yourself” — I am an AI/ML faculty and full-stack builder who turns research ideas into practical products.
-                I have mentored 1000+ students and built production-ready systems across education and industry.
-                My focus is simple: clear thinking, useful automation, and real-world impact.
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-black dark:text-white max-w-3xl mx-auto font-medium leading-relaxed">
+                "We are moving from a world where we write instructions for computers to execute, to a world where we provide data and the computer discovers the rules. AI is not just a tool; it is a fundamental shift in how we solve complex problems at scale."
               </p>
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6">
               <motion.div variants={fadeInUp}>
-                <Card className="group relative h-full overflow-hidden border border-cyan-500/20 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-xl transition-all duration-500">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-cyan-500/15 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
+                <Card className="sketch-box group relative h-full overflow-hidden border  bg-white dark:bg-black dark:bg-white dark:bg-black hover:bg-white dark:bg-black dark:hover:bg-white dark:bg-black  transition-all duration-500">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-cyan-500/15 to-transparent rounded-full  -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
                   <CardHeader className="relative">
                     <motion.div
-                      className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl mb-3 shadow-lg shadow-cyan-500/30"
+                      className="inline-flex items-center justify-center w-12 h-12  rounded-xl mb-3  "
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <GraduationCap className="w-6 h-6 text-white" />
+                      <GraduationCap className="w-6 h-6 text-black dark:text-white" />
                     </motion.div>
-                    <CardTitle className="text-xl font-bold text-white mb-1">Academic Excellence</CardTitle>
-                    <CardDescription className="text-sm text-slate-300">
+                    <CardTitle className="text-xl font-bold text-black dark:text-white mb-1">Academic Excellence</CardTitle>
+                    <CardDescription className="text-sm text-black dark:text-black dark:text-white">
                       AI/ML faculty with practical, project-first teaching
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="relative space-y-4">
-                    <p className="text-slate-300 text-sm leading-relaxed">
+                    <p className="text-black dark:text-black dark:text-white text-sm leading-relaxed">
                       I have mentored 1000+ learners across Data Science, Machine Learning, and AI by combining fundamentals with real project delivery. My approach focuses on clear concepts, production-ready execution, and strong problem-solving habits.
                     </p>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -1069,8 +1067,8 @@ export default function Home() {
                         'Conducted hands-on workshops on NLP, CV, and model deployment',
                         'Mentored project teams on architecture, code quality, and delivery',
                       ].map((item, i) => (
-                        <li key={i} className="flex items-start gap-2 text-xs text-slate-200">
-                          <span className="w-1.5 h-1.5 bg-gradient-to-br from-lime-400 to-emerald-500 rounded-full mt-1.5 flex-shrink-0" />
+                        <li key={i} className="flex items-start gap-2 text-xs text-black dark:text-black dark:text-white">
+                          <span className="w-1.5 h-1.5  rounded-full mt-1.5 flex-shrink-0" />
                           <span>{item}</span>
                         </li>
                       ))}
@@ -1080,23 +1078,23 @@ export default function Home() {
               </motion.div>
 
               <motion.div variants={fadeInUp}>
-                <Card className="group relative h-full overflow-hidden border border-lime-500/20 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-xl transition-all duration-500">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-lime-500/15 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
+                <Card className="sketch-box group relative h-full overflow-hidden border  bg-white dark:bg-black dark:bg-white dark:bg-black hover:bg-white dark:bg-black dark:hover:bg-white dark:bg-black  transition-all duration-500">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-lime-500/15 to-transparent rounded-full  -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
                   <CardHeader className="relative">
                     <motion.div
-                      className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-lime-500 to-green-600 rounded-xl mb-3 shadow-lg shadow-lime-500/30"
+                      className="inline-flex items-center justify-center w-12 h-12  rounded-xl mb-3  "
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <Zap className="w-6 h-6 text-white" />
+                      <Zap className="w-6 h-6 text-black dark:text-white" />
                     </motion.div>
-                    <CardTitle className="text-xl font-bold text-white mb-1">Industry Experience</CardTitle>
-                    <CardDescription className="text-sm text-slate-300">
+                    <CardTitle className="text-xl font-bold text-black dark:text-white mb-1">Industry Experience</CardTitle>
+                    <CardDescription className="text-sm text-black dark:text-black dark:text-white">
                       Shipping AI products for real business workflows
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="relative space-y-4">
-                    <p className="text-slate-300 text-sm leading-relaxed">
+                    <p className="text-black dark:text-black dark:text-white text-sm leading-relaxed">
                       I build and deploy practical AI systems across analytics, transcription, computer vision, and decision support. From idea to production, I focus on reliable pipelines, measurable outcomes, and maintainable full-stack delivery.
                     </p>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -1106,8 +1104,8 @@ export default function Home() {
                         'Delivered custom ML solutions for domain-specific use cases',
                         'Collaborated with cross-functional teams from prototype to launch',
                       ].map((item, i) => (
-                        <li key={i} className="flex items-start gap-2 text-xs text-slate-200">
-                          <span className="w-1.5 h-1.5 bg-gradient-to-br from-lime-400 to-emerald-500 rounded-full mt-1.5 flex-shrink-0" />
+                        <li key={i} className="flex items-start gap-2 text-xs text-black dark:text-black dark:text-white">
+                          <span className="w-1.5 h-1.5  rounded-full mt-1.5 flex-shrink-0" />
                           <span>{item}</span>
                         </li>
                       ))}
@@ -1121,24 +1119,24 @@ export default function Home() {
       </section>
 
       {/* AI/ML Projects Section */}
-      <section id="ai-projects" className="py-16 md:py-32 relative border-t border-slate-600/25">
+      <section id="ai-projects" className="py-16 md:py-32 relative border-t ">
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-7xl mx-auto"
             {...sectionRevealProps}
           >
             <motion.div variants={fadeInUp} className="text-center mb-20">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-lime-500/15 to-cyan-500/15 border border-lime-500/30 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
-                <span className="w-2 h-2 bg-gradient-to-r from-lime-400 to-cyan-400 rounded-full animate-pulse" />
-                <span className="text-sm font-bold text-lime-300">AI & Machine Learning</span>
+              <div className="inline-flex items-center gap-2  border  rounded-full px-5 py-2 mb-6 ">
+                <span className="w-2 h-2  rounded-full animate-pulse" />
+                <span className="text-sm font-bold text-black dark:text-black dark:text-white">AI & Machine Learning</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-white">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-black dark:text-white">
                 Intelligent
-                <span className="block bg-gradient-to-r from-lime-400 to-cyan-400 bg-clip-text text-transparent">
+                <span className="block  text-sketch">
                   Solutions Showcase
                 </span>
               </h2>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-black dark:text-black dark:text-white max-w-2xl mx-auto">
                 A unified view of intelligent system capabilities across core AI domains and production technology stacks
               </p>
             </motion.div>
@@ -1204,29 +1202,29 @@ export default function Home() {
                   whileHover={{ y: -12, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  <Card className="group relative h-full overflow-hidden border border-slate-700/50 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-lg hover:shadow-2xl transition-all duration-500 hover:border-cyan-500/40">
+                  <Card className="sketch-box group relative h-full overflow-hidden border  bg-white dark:bg-black dark:bg-white dark:bg-black hover:bg-white dark:bg-black dark:hover:bg-white dark:bg-black  hover: transition-all duration-500 hover:">
                     {/* Animated gradient overlay on hover */}
                     <motion.div 
-                      className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      className="absolute inset-0  opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                       initial={{ opacity: 0 }}
                       whileHover={{ opacity: 1 }}
                     />
                     
-                    <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${project.gradient}/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700`} />
+                    <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${project.gradient}/20 rounded-full  -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700`} />
                     
                     <CardHeader className="relative">
                       <motion.div
-                        className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${project.gradient} rounded-2xl mb-4 shadow-lg`}
+                        className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${project.gradient} rounded-2xl mb-4 `}
                         style={{ boxShadow: `0 10px 40px -10px` }}
                         whileHover={{ scale: 1.15, rotate: 10 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
-                        <project.icon className="w-8 h-8 text-white" />
+                        <project.icon className="w-8 h-8 text-black dark:text-white" />
                       </motion.div>
-                      <CardTitle className="text-2xl font-bold mb-2 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-lime-400 group-hover:bg-clip-text transition-all duration-300">
+                      <CardTitle className="text-2xl font-bold mb-2 text-black dark:text-white  transition-all duration-300">
                         {project.title}
                       </CardTitle>
-                      <CardDescription className="text-base text-slate-300 group-hover:text-slate-200 transition-colors">
+                      <CardDescription className="text-base text-black dark:text-black dark:text-white group-hover:text-black dark:text-black dark:text-white transition-colors">
                         {project.desc}
                       </CardDescription>
                     </CardHeader>
@@ -1235,7 +1233,7 @@ export default function Home() {
                       <div className="flex flex-wrap gap-2">
                         {project.tags.map((tag, i) => (
                           <motion.div key={i} whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
-                            <Badge className="bg-slate-800/70 text-slate-200 border border-slate-700/50 hover:bg-gradient-to-r hover:from-cyan-500/30 hover:to-violet-500/30 hover:border-cyan-500/60 transition-all cursor-pointer">
+                            <Badge className="sketch-box border-none bg-white dark:bg-black text-black dark:text-black dark:text-white border  hover:bg-gradient-to-r hover:from-cyan-500/30 hover:to-violet-500/30 hover: transition-all cursor-pointer">
                               {tag}
                             </Badge>
                           </motion.div>
@@ -1245,11 +1243,11 @@ export default function Home() {
                         {project.items.map((item, i) => (
                           <motion.li 
                             key={i} 
-                            className="flex items-start gap-2 text-sm text-slate-300 group-hover:text-slate-100 transition-colors"
+                            className="flex items-start gap-2 text-sm text-black dark:text-black dark:text-white group-hover:text-black dark:text-black dark:text-white transition-colors"
                             whileHover={{ x: 4 }}
                             transition={{ type: "spring", stiffness: 300 }}
                           >
-                            <span className="w-1.5 h-1.5 bg-gradient-to-br from-cyan-400 to-lime-400 rounded-full mt-2 flex-shrink-0 group-hover:scale-125 transition-transform" />
+                            <span className="w-1.5 h-1.5  rounded-full mt-2 flex-shrink-0 group-hover:scale-125 transition-transform" />
                             {item}
                           </motion.li>
                         ))}
@@ -1264,7 +1262,7 @@ export default function Home() {
       </section>
 
       {/* Products Section */}
-      <section id="products" className="py-16 md:py-32 relative border-t border-slate-600/25 bg-gradient-to-b from-transparent via-slate-900/30 to-transparent overflow-hidden">
+      <section id="products" className="py-16 md:py-32 relative border-t  bg-gradient-to-b from-transparent via-slate-900/30 to-transparent overflow-hidden">
         {/* Data Flow Particle Animation Background */}
         <div className="absolute inset-0 opacity-30">
           {enableHeavyEffects && <LazyDataFlowParticles />}
@@ -1276,17 +1274,17 @@ export default function Home() {
             {...sectionRevealProps}
           >
             <motion.div variants={fadeInUp} className="text-center mb-20">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-500/15 to-pink-500/15 border border-violet-500/30 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
-                <span className="w-2 h-2 bg-gradient-to-r from-violet-400 to-pink-400 rounded-full animate-pulse" />
-                <span className="text-sm font-bold text-violet-300">Products & Services</span>
+              <div className="inline-flex items-center gap-2  border  rounded-full px-5 py-2 mb-6 ">
+                <span className="w-2 h-2  rounded-full animate-pulse" />
+                <span className="text-sm font-bold text-black dark:text-black dark:text-white">Products & Services</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-white">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-black dark:text-white">
                 Production-Ready
-                <span className="block bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
+                <span className="block  text-sketch">
                   AI Solutions
                 </span>
               </h2>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-black dark:text-black dark:text-white max-w-2xl mx-auto">
                 Industry-proven products solving real-world challenges at scale
               </p>
             </motion.div>
@@ -1363,8 +1361,8 @@ export default function Home() {
                   whileHover={{ scale: 1.01 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  <Card className="group relative overflow-hidden border border-slate-700/50 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-lg">
-                    <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br ${product.gradient}/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700`} />
+                  <Card className="sketch-box group relative overflow-hidden border  bg-white dark:bg-black dark:bg-white dark:bg-black hover:bg-white dark:bg-black dark:hover:bg-white dark:bg-black ">
+                    <div className={`absolute top-0 right-0 w-96 h-96 bg-gradient-to-br ${product.gradient}/15 rounded-full  -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700`} />
                     
                     <div className="md:flex relative">
                       <div className={`md:w-1/3 bg-gradient-to-br ${product.gradient} p-7 flex flex-col justify-center relative overflow-hidden`}>
@@ -1374,51 +1372,51 @@ export default function Home() {
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
-                          <product.icon className="w-8 h-8 text-white" />
+                          <product.icon className="w-8 h-8 text-black dark:text-white" />
                         </motion.div>
-                        <h3 className="relative text-3xl font-black text-white mb-1.5">{product.name}</h3>
-                        <p className="relative text-white/80 text-base">{product.desc}</p>
+                        <h3 className="relative text-3xl font-black text-black dark:text-white mb-1.5">{product.name}</h3>
+                        <p className="relative text-black dark:text-white text-base">{product.desc}</p>
                       </div>
                       
                       <div className="md:w-2/3 p-7">
                         <div className="flex items-start justify-between mb-4">
-                          <Badge className="bg-gradient-to-r from-lime-500 to-cyan-500 text-white border-0 shadow-lg shadow-lime-500/30">
+                          <Badge className="sketch-box border-none  text-black dark:text-white border-0  ">
                             {product.status}
                           </Badge>
-                          <Badge variant="outline" className="gap-2 hover:bg-slate-800/50 transition-colors border-slate-600/50">
+                          <Badge variant="outline" className="gap-2 hover:bg-white dark:bg-black transition-colors ">
                             <ExternalLink className="w-3 h-3" />
                             Live Demo
                           </Badge>
                         </div>
                         
-                        <p className="text-slate-300 mb-6 leading-relaxed text-base">
+                        <p className="text-black dark:text-black dark:text-white mb-6 leading-relaxed text-base">
                           {product.description}
                         </p>
                         
                         <div className="grid sm:grid-cols-2 gap-6 mb-6">
                           <div>
-                            <h4 className="font-bold text-base mb-3 flex items-center gap-2 text-white">
-                              <Layers className="w-4 h-4 text-cyan-400" />
+                            <h4 className="font-bold text-base mb-3 flex items-center gap-2 text-black dark:text-white">
+                              <Layers className="w-4 h-4 text-black dark:text-black dark:text-white" />
                               Key Features
                             </h4>
                             <ul className="space-y-2">
                               {product.features.map((feature, i) => (
-                                <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                                  <span className="w-1.5 h-1.5 bg-gradient-to-br from-cyan-400 to-lime-400 rounded-full mt-2 flex-shrink-0" />
+                                <li key={i} className="flex items-start gap-2 text-sm text-black dark:text-black dark:text-white">
+                                  <span className="w-1.5 h-1.5  rounded-full mt-2 flex-shrink-0" />
                                   {feature}
                                 </li>
                               ))}
                             </ul>
                           </div>
                           <div>
-                            <h4 className="font-bold text-base mb-3 flex items-center gap-2 text-white">
-                              <Target className="w-4 h-4 text-violet-400" />
+                            <h4 className="font-bold text-base mb-3 flex items-center gap-2 text-black dark:text-white">
+                              <Target className="w-4 h-4 text-black dark:text-black dark:text-white" />
                               Use Cases
                             </h4>
                             <ul className="space-y-2">
                               {product.useCases.map((useCase, i) => (
-                                <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                                  <span className="w-1.5 h-1.5 bg-gradient-to-br from-violet-400 to-pink-400 rounded-full mt-2 flex-shrink-0" />
+                                <li key={i} className="flex items-start gap-2 text-sm text-black dark:text-black dark:text-white">
+                                  <span className="w-1.5 h-1.5  rounded-full mt-2 flex-shrink-0" />
                                   {useCase}
                                 </li>
                               ))}
@@ -1428,7 +1426,7 @@ export default function Home() {
                         
                         <div className="flex flex-wrap gap-2">
                           {product.tags.map((tag, i) => (
-                            <Badge key={i} variant="secondary" className="bg-slate-800/70 text-slate-200 border border-slate-700/50">
+                            <Badge key={i} variant="secondary" className="bg-white dark:bg-black text-black dark:text-black dark:text-white border ">
                               {tag}
                             </Badge>
                           ))}
@@ -1444,7 +1442,7 @@ export default function Home() {
       </section>
 
       {/* Development Projects Section */}
-      <section id="dev-projects" className="py-16 md:py-32 relative border-t border-slate-600/25 overflow-hidden">
+      <section id="dev-projects" className="py-16 md:py-32 relative border-t  overflow-hidden">
         {/* Floating Code Snippets Background */}
         {enableHeavyEffects && <LazyFloatingCodeSnippets />}
 
@@ -1454,17 +1452,17 @@ export default function Home() {
             {...sectionRevealProps}
           >
             <motion.div variants={fadeInUp} className="text-center mb-16 md:mb-20">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/15 to-teal-500/15 border border-emerald-500/30 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
-                <span className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full animate-pulse" />
+              <div className="inline-flex items-center gap-2  border  rounded-full px-5 py-2 mb-6 ">
+                <span className="w-2 h-2  rounded-full animate-pulse" />
                 <span className="text-sm font-bold text-emerald-300">Full-Stack Development</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-white">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-black dark:text-white">
                 Enterprise
-                <span className="block bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                <span className="block  text-sketch">
                   Applications
                 </span>
               </h2>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-black dark:text-black dark:text-white max-w-2xl mx-auto">
                 Comprehensive web and mobile solutions for complex business challenges
               </p>
             </motion.div>
@@ -1475,7 +1473,6 @@ export default function Home() {
                   icon: MessageSquare,
                   title: 'Whatcast',
                   desc: 'WhatsApp API Chat & CRM Platform',
-                  gradient: 'from-emerald-500 to-green-600',
                   badge: 'Featured',
                   features: [
                     'Real-time WhatsApp messaging',
@@ -1490,7 +1487,6 @@ export default function Home() {
                   icon: Server,
                   title: 'Enterprise ERP Solutions',
                   desc: 'Business management systems',
-                  gradient: 'from-blue-500 to-indigo-600',
                   features: [
                     'Inventory & warehouse management',
                     'Sales & purchase tracking',
@@ -1504,7 +1500,6 @@ export default function Home() {
                   icon: Globe,
                   title: 'Web Applications',
                   desc: 'Modern web solutions',
-                  gradient: 'from-purple-500 to-violet-600',
                   features: [
                     'SaaS platforms with subscription models',
                     'E-commerce solutions',
@@ -1518,7 +1513,6 @@ export default function Home() {
                   icon: Smartphone,
                   title: 'Mobile Applications',
                   desc: 'Cross-platform mobile solutions',
-                  gradient: 'from-orange-500 to-red-600',
                   features: [
                     'Fitness tracking applications',
                     'Social networking apps',
@@ -1535,50 +1529,50 @@ export default function Home() {
                   whileHover={{ y: -6 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  <Card className="group relative h-full overflow-hidden border border-slate-700/50 bg-slate-900/40 dark:bg-slate-950/60 hover:bg-slate-900/60 dark:hover:bg-slate-950/80 backdrop-blur-lg hover:shadow-2xl transition-all duration-500">
-                    <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${project.gradient}/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700`} />
+                  <Card className="sketch-box group relative h-full overflow-hidden border-2 border-black bg-white transition-all duration-500">
+                    <div className={`absolute top-0 right-0 w-64 h-64 bg-black/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700`} />
                     
                     <CardHeader className="relative pb-4">
                       <div className="flex items-start justify-between mb-3">
                         <motion.div
-                          className={`inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br ${project.gradient} rounded-xl shadow-lg`}
+                          className={`inline-flex items-center justify-center w-12 h-12 bg-black/5 rounded-xl`}
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
-                          <project.icon className="w-6 h-6 text-white" />
+                          <project.icon className="w-6 h-6 text-black dark:text-white" />
                         </motion.div>
                         {project.badge && (
-                          <Badge className="bg-gradient-to-r from-emerald-500 to-green-600 text-white border-0 shadow-lg shadow-emerald-500/30">
+                          <Badge className="sketch-box border-none  text-black dark:text-white border-0  ">
                             {project.badge}
                           </Badge>
                         )}
                       </div>
-                      <CardTitle className="text-xl font-bold mb-1 text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-emerald-400 group-hover:to-teal-400 group-hover:bg-clip-text transition-all duration-300">
+                      <CardTitle className="text-xl font-bold mb-1 text-black dark:text-white  transition-all duration-300">
                         {project.title}
                       </CardTitle>
-                      <CardDescription className="text-sm text-slate-300">
+                      <CardDescription className="text-sm text-black dark:text-black dark:text-white">
                         {project.desc}
                       </CardDescription>
                     </CardHeader>
                     
                     <CardContent className="relative space-y-4 pt-0">
                       <div>
-                        <h4 className="font-bold text-base mb-2 flex items-center gap-2 text-white">
-                          <Star className="w-4 h-4 text-amber-400" />
+                        <h4 className="font-bold text-base mb-2 flex items-center gap-2 text-black">
+                          <Star className="w-4 h-4 text-black" />
                           Core Features
                         </h4>
                         <ul className="space-y-1.5">
                           {project.features.map((feature, i) => (
-                            <li key={i} className="flex items-start gap-2 text-xs text-slate-300">
-                              <span className="w-1.5 h-1.5 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full mt-2 flex-shrink-0" />
+                            <li key={i} className="flex items-start gap-2 text-xs text-black dark:text-black dark:text-white">
+                              <span className="w-1.5 h-1.5  rounded-full mt-2 flex-shrink-0" />
                               {feature}
                             </li>
                           ))}
                         </ul>
                       </div>
-                      <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-700/50">
+                      <div className="flex flex-wrap gap-1.5 pt-3 border-t ">
                         {project.tags.map((tag, i) => (
-                          <Badge key={i} variant="secondary" className="bg-slate-800/70 text-[11px] text-slate-200 border border-slate-700/50 px-2 py-0.5">
+                          <Badge key={i} variant="secondary" className="bg-white text-[11px] text-black border border-black px-2 py-0.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                             {tag}
                           </Badge>
                         ))}
@@ -1593,24 +1587,24 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 md:py-32 relative border-t border-slate-600/25">
+      <section id="contact" className="py-16 md:py-32 relative border-t ">
         <div className="container mx-auto px-4">
           <motion.div 
             className="max-w-6xl mx-auto"
             {...sectionRevealProps}
           >
             <motion.div variants={fadeInUp} className="text-center mb-16 md:mb-20">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-rose-500/15 to-orange-500/15 border border-rose-500/30 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
-                <span className="w-2 h-2 bg-gradient-to-r from-rose-400 to-orange-400 rounded-full animate-pulse" />
+              <div className="inline-flex items-center gap-2  border  rounded-full px-5 py-2 mb-6 ">
+                <span className="w-2 h-2  rounded-full animate-pulse" />
                 <span className="text-sm font-bold text-rose-300">Get In Touch</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-white">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-black dark:text-white">
                 Let's Work
-                <span className="block bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
+                <span className="block  text-sketch">
                   Together
                 </span>
               </h2>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-black dark:text-black dark:text-white max-w-2xl mx-auto">
                 Open to collaborations, consulting, and teaching opportunities
               </p>
             </motion.div>
@@ -1618,34 +1612,34 @@ export default function Home() {
             <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
               {/* Contact Form */}
               <motion.div variants={fadeInUp}>
-                <Card className="relative overflow-hidden border border-slate-700/50 bg-slate-900/40 dark:bg-slate-950/60 backdrop-blur-lg shadow-2xl">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-rose-500/15 to-orange-500/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <Card className="sketch-box relative overflow-hidden border  bg-white dark:bg-black dark:bg-white dark:bg-black  ">
+                  <div className="absolute top-0 right-0 w-64 h-64  rounded-full  -translate-y-1/2 translate-x-1/2" />
                   
                   <CardHeader className="relative">
-                    <CardTitle className="text-2xl font-bold mb-2 text-white">Send a Message</CardTitle>
-                    <CardDescription className="text-base text-slate-300">
+                    <CardTitle className="text-2xl font-bold mb-2 text-black dark:text-white">Send a Message</CardTitle>
+                    <CardDescription className="text-base text-black dark:text-black dark:text-white">
                       I'll get back to you as soon as possible
                     </CardDescription>
                   </CardHeader>
                   
                   <CardContent className="relative space-y-6">
                     <div>
-                      <label className="text-sm font-semibold mb-3 block text-white">Name</label>
-                      <Input placeholder="Your name" className="h-12 rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-sky-500 transition-colors" />
+                      <label className="text-sm font-semibold mb-3 block text-black dark:text-white">Name</label>
+                      <Input placeholder="Your name" className="h-12 rounded-xl border  bg-white dark:bg-black text-black dark:text-white placeholder:text-black dark:text-black dark:text-white focus: transition-colors" />
                     </div>
                     <div>
-                      <label className="text-sm font-semibold mb-3 block text-white">Email</label>
-                      <Input type="email" placeholder="your@email.com" className="h-12 rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-sky-500 transition-colors" />
+                      <label className="text-sm font-semibold mb-3 block text-black dark:text-white">Email</label>
+                      <Input type="email" placeholder="your@email.com" className="h-12 rounded-xl border  bg-white dark:bg-black text-black dark:text-white placeholder:text-black dark:text-black dark:text-white focus: transition-colors" />
                     </div>
                     <div>
-                      <label className="text-sm font-semibold mb-3 block text-white">Subject</label>
-                      <Input placeholder="What's this about?" className="h-12 rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-sky-500 transition-colors" />
+                      <label className="text-sm font-semibold mb-3 block text-black dark:text-white">Subject</label>
+                      <Input placeholder="What's this about?" className="h-12 rounded-xl border  bg-white dark:bg-black text-black dark:text-white placeholder:text-black dark:text-black dark:text-white focus: transition-colors" />
                     </div>
                     <div>
-                      <label className="text-sm font-semibold mb-3 block text-white">Message</label>
-                      <Textarea placeholder="Your message..." rows={5} className="rounded-xl border border-slate-700/50 bg-slate-800/50 text-white placeholder:text-slate-500 focus:border-sky-500 transition-colors resize-none" />
+                      <label className="text-sm font-semibold mb-3 block text-black dark:text-white">Message</label>
+                      <Textarea placeholder="Your message..." rows={5} className="rounded-xl border  bg-white dark:bg-black text-black dark:text-white placeholder:text-black dark:text-black dark:text-white focus: transition-colors resize-none" />
                     </div>
-                    <Button className="w-full bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-white rounded-xl h-12 text-base font-semibold shadow-xl shadow-sky-500/30">
+                    <Button className="sketch-button w-full  hover:from-sky-400 hover:to-indigo-400 text-black dark:text-white rounded-xl h-12 text-base font-semibold  ">
                       Send Message
                       <Mail className="ml-2 w-5 h-5" />
                     </Button>
@@ -1655,11 +1649,11 @@ export default function Home() {
 
               {/* Contact Info */}
               <motion.div variants={fadeInUp} className="space-y-6">
-                <Card className="relative overflow-hidden border border-slate-700/50 bg-slate-900/40 dark:bg-slate-950/60 backdrop-blur-lg">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-sky-500/15 to-indigo-500/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <Card className="sketch-box relative overflow-hidden border  bg-white dark:bg-black dark:bg-white dark:bg-black ">
+                  <div className="absolute top-0 right-0 w-64 h-64  rounded-full  -translate-y-1/2 translate-x-1/2" />
                   
                   <CardHeader className="relative">
-                    <CardTitle className="text-2xl font-bold mb-2 text-white">Contact Information</CardTitle>
+                    <CardTitle className="text-2xl font-bold mb-2 text-black dark:text-white">Contact Information</CardTitle>
                   </CardHeader>
                   
                   <CardContent className="relative space-y-4">
@@ -1671,24 +1665,24 @@ export default function Home() {
                     ].map((item, i) => (
                       <motion.div
                         key={i}
-                        className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-800/50 transition-colors cursor-pointer"
+                        className="flex items-center gap-4 p-3 rounded-xl hover:bg-white dark:bg-black transition-colors cursor-pointer"
                         whileHover={{ x: 8 }}
                         transition={{ type: "spring", stiffness: 300 }}
                       >
-                        <div className="w-10 h-10 bg-gradient-to-br from-sky-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
-                          <item.icon className="w-5 h-5 text-white" />
+                        <div className="w-10 h-10  rounded-xl flex items-center justify-center  ">
+                          <item.icon className="w-5 h-5 text-black dark:text-white" />
                         </div>
-                        <span className="text-slate-200">{item.label}</span>
+                        <span className="text-black dark:text-black dark:text-white">{item.label}</span>
                       </motion.div>
                     ))}
                   </CardContent>
                 </Card>
 
-                <Card className="relative overflow-hidden border border-slate-700/50 bg-slate-900/40 dark:bg-slate-950/60 backdrop-blur-lg">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-lime-500/15 to-emerald-500/15 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <Card className="sketch-box relative overflow-hidden border  bg-white dark:bg-black dark:bg-white dark:bg-black ">
+                  <div className="absolute top-0 right-0 w-64 h-64  rounded-full  -translate-y-1/2 translate-x-1/2" />
                   
                   <CardHeader className="relative">
-                    <CardTitle className="text-2xl font-bold mb-2 text-white">Available For</CardTitle>
+                    <CardTitle className="text-2xl font-bold mb-2 text-black dark:text-white">Available For</CardTitle>
                   </CardHeader>
                   
                   <CardContent className="relative">
@@ -1700,15 +1694,15 @@ export default function Home() {
                         'Technical Writing',
                         'Mentorship'
                       ].map((item, i) => (
-                        <li key={i} className="flex items-center gap-3 text-slate-200">
+                        <li key={i} className="flex items-center gap-3 text-black dark:text-black dark:text-white">
                           <motion.div
                             initial={{ scale: 0 }}
                             whileInView={{ scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            className="flex-shrink-0 w-6 h-6 bg-gradient-to-br from-lime-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg shadow-lime-500/30"
+                            className="flex-shrink-0 w-6 h-6  rounded-full flex items-center justify-center  "
                           >
-                            <CheckCircle2 className="w-4 h-4 text-white" />
+                            <CheckCircle2 className="w-4 h-4 text-black dark:text-white" />
                           </motion.div>
                           {item}
                         </li>
@@ -1723,25 +1717,25 @@ export default function Home() {
       </section>
 
       {/* Footer - Premium Style */}
-      <footer className="py-8 md:py-12 border-t border-slate-600/25 bg-gradient-to-r from-slate-900 to-indigo-950/50">
+      <footer className="py-8 md:py-12 border-t  /50">
         <div className="container mx-auto px-4">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6">
             <div className="flex items-center gap-3">
               <motion.div
-                className="w-12 h-12 bg-gradient-to-br from-sky-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-xl shadow-sky-500/30"
+                className="w-12 h-12  rounded-xl flex items-center justify-center  "
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <Brain className="w-6 h-6 text-white" />
+                <Brain className="w-6 h-6 text-black dark:text-white" />
               </motion.div>
               <div>
-                <span className="font-bold text-lg text-white">Farhan Siddiqui</span>
-                <p className="text-sm text-slate-400">Data Science & AI/ML Faculty</p>
+                <span className="font-bold text-lg text-black dark:text-white">Farhan Siddiqui</span>
+                <p className="text-sm text-black dark:text-black dark:text-white">Data Science & AI/ML Faculty</p>
               </div>
             </div>
             
-            <p className="text-sm text-slate-400 text-center">
-              © {new Date().getFullYear()} Farhan Siddiqui. All rights reserved.
+            <p className="text-sm text-black dark:text-black dark:text-white text-center">
+              ┬® {new Date().getFullYear()} Farhan Siddiqui. All rights reserved.
             </p>
             
             <div className="flex items-center gap-3">
@@ -1754,9 +1748,9 @@ export default function Home() {
                   key={i}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-10 h-10 bg-slate-800/60 hover:bg-gradient-to-br hover:from-sky-500 hover:to-indigo-500 rounded-xl flex items-center justify-center transition-all duration-300 group border border-slate-700/50 hover:border-sky-500/50"
+                  className="w-10 h-10 bg-white dark:bg-black hover:bg-gradient-to-br hover:from-sky-500 hover:to-indigo-500 rounded-xl flex items-center justify-center transition-all duration-300 group border  hover:"
                 >
-                  <item.icon className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" />
+                  <item.icon className="w-5 h-5 text-black dark:text-black dark:text-white group-hover:text-black dark:text-white transition-colors" />
                 </motion.button>
               ))}
             </div>
