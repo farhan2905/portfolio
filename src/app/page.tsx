@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/button'
@@ -313,12 +313,18 @@ const DynamicSignalFlow = ({ layers }: { layers: Array<{ id: string; x: number; 
 
 // Epic Neural Network Landing Animation with Agentic Flow (11 seconds)
 const NeuralNetworkLandingAnimation = ({ onComplete }: { onComplete: () => void }) => {
+  const hasCompletedRef = useRef(false)
+
   useEffect(() => {
+    if (hasCompletedRef.current) return
     const timer = setTimeout(() => {
-      onComplete()
+      if (!hasCompletedRef.current) {
+        hasCompletedRef.current = true
+        onComplete()
+      }
     }, 5500)
     return () => clearTimeout(timer)
-  }, [onComplete])
+  }, [])
 
   const layers = [
     { id: 'input', x: 12, nodes: 5, label: 'Input Data', sublabel: 'Questions & Context', dataType: 'Questions' },
@@ -673,6 +679,7 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [showLanding, setShowLanding] = useState(() => enableHeavyEffects)
+  const handleLandingComplete = useCallback(() => setShowLanding(false), [])
   const mouseFrameRef = useRef<number | null>(null)
   const pendingMouseRef = useRef({ x: 0, y: 0 })
   const heroRef = useRef<HTMLDivElement>(null)
@@ -765,7 +772,7 @@ export default function Home() {
       {/* Epic Neural Network Landing Animation */}
       <AnimatePresence>
         {landingActive && (
-          <NeuralNetworkLandingAnimation onComplete={() => setShowLanding(false)} />
+          <NeuralNetworkLandingAnimation onComplete={handleLandingComplete} />
         )}
       </AnimatePresence>
 
